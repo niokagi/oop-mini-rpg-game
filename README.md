@@ -40,7 +40,8 @@ Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari 
     ```bash
     mkdir bin
     ```
-4.  Kompilasi semua file `.java` dari `src` ke dalam folder `bin`. Gunakan perintah di bawah ini.
+4.  Kompilasi semua file `.java` dari `src` ke dalam folder `bin`.
+    
     *(note: Gunakan `/` untuk macOS/Linux dan `\` untuk Windows sebagai pemisah folder)*
    
     ```bash
@@ -50,7 +51,7 @@ Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari 
     # Untuk Windows:
     javac -d bin src\core\*.java src\models\*.java src\models\items\*.java src\utils\*.java
     ```
-5.  Jalankan program. Perintah `java` dieksekusi dari *root* dan memberitahu Java untuk mencari *class* di dalam folder `bin` (`-cp bin`), lalu memanggil *class* `main` dengan nama paket lengkapnya (`core.GameManager`).
+5.  Jalankan program dari *root*
   
     ```bash
     java -cp bin core.GameManager
@@ -110,7 +111,7 @@ Proyek ini dirancang secara spesifik untuk memenuhi semua persyaratan minimal OO
 
 * **Encapsulation (Enkapsulasi):**
     * Semua atribut di *class models* (seperti `private int hp` di `Entity` atau `private int attackBonus` di `Weapon`) di-set sebagai `private`.
-    * Akses ke atribut tersebut diatur secara ketat melalui *method* publik (`getter` dan `setter` publik).
+    * Akses ke atribut diatur secara ketat melalui *method* publik (`getter` dan `setter` publik).
 
 * **Association (Asosiasi):**
     * `Player` "HAS-A" `List<Item>` (Inventory).

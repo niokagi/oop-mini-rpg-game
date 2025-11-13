@@ -20,7 +20,7 @@ Manusia bertahan hidup di **Caldera Bunker**, sebuah pemukiman bawah tanah mandi
 
 * **RPG Berbasis Konsol:** Seluruh interaksi dilakukan melalui input teks.
 * **Pertarungan Turn-Based:** Sistem pertarungan klasik melawan 4 musuh kunci (2 Minion, 1 Elite, 1 Boss).
-* **Alur Cerita Linear:** Alur cerita memiliki progres yang jelas (Mulai -> Misi -> Menang/Kalah).
+* **Alur Cerita Linear:** Alur cerita memiliki progres yang jelas (Mulai => Misi => Menang/Kalah).
 * **Sistem Leveling:** Dapatkan EXP untuk naik level, meningkatkan HP dan Attack.
 * **Inventory Fungsional:**
     * **Equip/Unequip:** Player dapat memakai (`Weapon`, `Armor`) dan melepas item.

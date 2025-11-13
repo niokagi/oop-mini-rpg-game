@@ -3,7 +3,7 @@
 
 ---
 
-## 1. Latar Belakang & Plot
+## Latar Belakang & Plot
 
 **Soot Fallout** adalah Mini RPG Game dengan gaya Turn Based yang berbasis konsol/CLI yang bertemakan *post-apocalypse*.
 <!-- dan berakar pada realisme ilmiah -->
@@ -16,7 +16,7 @@ Manusia bertahan hidup di **Caldera Bunker**, sebuah pemukiman bawah tanah mandi
 
 ---
 
-## 2. Fitur Gameplay
+## Fitur Gameplay
 
 * **RPG Berbasis Konsol:** Seluruh interaksi dilakukan melalui input teks.
 * **Pertarungan Turn-Based:** Sistem pertarungan klasik melawan 4 musuh kunci (2 Minion, 1 Elite, 1 Boss).
@@ -30,7 +30,7 @@ Manusia bertahan hidup di **Caldera Bunker**, sebuah pemukiman bawah tanah mandi
 
 ---
 
-## 3. Cara Menjalankan Program
+## Cara Menjalankan Program
 
 Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari terminal.
 
@@ -59,7 +59,7 @@ Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari 
 
 ---
 
-## 4. Struktur Proyek
+## Struktur Proyek
 
 Struktur proyek disederhanakan untuk kompilasi manual, namun tetap mempertahankan paket modular.
 
@@ -91,7 +91,7 @@ SootFallout/
 
 ---
 
-## 5. Implementasi Konsep OOP
+## Implementasi Konsep OOP
 
 Proyek ini dirancang secara spesifik untuk memenuhi semua persyaratan minimal OOP dari instruksi tugas mini project:
 

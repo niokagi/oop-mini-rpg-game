@@ -1,5 +1,5 @@
 # Soot Fallout
-> The Sun is just a memory.
+> The Sunshine is just a memory.
 
 ---
 

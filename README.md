@@ -63,9 +63,9 @@ Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari 
 
 Struktur proyek disederhanakan untuk kompilasi manual, namun tetap mempertahankan paket modular.
 
-```
+'''
 SootFallout/
-├── bin/ (tempat hasil kompilasi)
+├── bin/       
 ├── docs/
 │   └── DiagramClass.png
 ├── src/                   
@@ -78,16 +78,16 @@ SootFallout/
 │   │   │   ├── Armor.java
 │   │   │   ├── Consumable.java
 │   │   │   └── QuestItem.java
-|   |   ├── monsters/
+│   │   ├── monsters/
 │   │   │   ├── Monster.java
 │   │   │   └── BossMonster.java
-│   │   ├──Player.java
-│   │   └── BossMonster.java
+│   │   ├── Entity.java (Abstract)
+│   │   └── Player.java
 │   └── utils/
 │       ├── InputHandler.java
 │       └── Narrator.java
 └── README.md
-```
+'''
 
 ---
 

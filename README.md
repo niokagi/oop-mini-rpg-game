@@ -63,7 +63,7 @@ Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari 
 
 Struktur proyek disederhanakan untuk kompilasi manual, namun tetap mempertahankan paket modular.
 
-'''
+```
 SootFallout/
 ├── bin/       
 ├── docs/
@@ -87,7 +87,7 @@ SootFallout/
 │       ├── InputHandler.java
 │       └── Narrator.java
 └── README.md
-'''
+```
 
 ---
 

@@ -80,13 +80,16 @@ Soot-Fallout/
 │   │   ├── Entity.java (Abstract)
 │   │   └── Player.java
 │   └── utils/
+│       ├── AsciiArt.java
+│       ├── ConsoleUtils.java
 │       ├── InputHandler.java
-│       ├── Narrator.java
-│       └── ConsoleUtils.java
+│       └── Narrator.java
+├── .gitattributes
 ├── .gitignore
 ├── build.gradle           
 ├── gradlew                 
 ├── gradlew.bat             
+├── run.bat        
 ├── settings.gradle        
 └── README.md
 ```
@@ -95,7 +98,7 @@ Soot-Fallout/
 
 ## Implementasi Konsep OOP
 
-* **Class & Object:** Menggunakan **13 *class*** yang saling berinteraksi, termasuk `GameManager`, `Player`, `Monster`, `Item`, `InputHandler`, `Narrator`, dan `ConsoleUtils`.
+* **Class & Object:** Menggunakan **14 *class*** yang saling berinteraksi, termasuk `GameManager`, `Player`, `Monster`, `Item`, `InputHandler`, `Narrator`, dan `ConsoleUtils`.
 
 * **Inheritance (Pewarisan):**
     * `Player` dan `Monster` mewarisi (`extends`) dari `Entity`.

@@ -30,27 +30,20 @@ Manusia bertahan hidup di **Caldera Bunker**, sebuah pemukiman bawah tanah mandi
 
 ---
 
-## 3. Cara Menjalankan Program (Gradle)
+## 3. Cara Menjalankan Program (Metode yang Direkomendasikan)
 
-Proyek dikelola menggunakan **Gradle**. Tidak perlu menginstal Gradle secara manual, cukup gunakan *Gradle Wrapper* (`gradlew`) saja yang sudah disertakan.
+Proyek ini menggunakan Gradle untuk proses kompilasi, namun memerlukan *script* khusus untuk berjalan dengan benar (agar utilitas *clear console* berfungsi).
 
-1.  Pastikan sudah memiliki Java (JDK) 11 atau lebih baru terinstal dan terkonfigurasi di `PATH` Anda.
+1.  Pastikan sudah memiliki Java (JDK) 11 atau lebih baru.
 2.  Buka terminal/command prompt di folder *root* proyek (`Soot-Fallout/`).
-3.  Jalankan program menggunakan *wrapper*.
+3.  Jalankan *script batch* kustom:
 
-    **Untuk Windows (PowerShell):**
+    **Untuk Windows:**
     ```bash
-    .\gradlew.bat run
+    .\run-game.bat
     ```
 
-    **Untuk macOS/Linux:**
-    ```bash
-    ./gradlew run
-    ```
-4.  **Opsional (Mode Hening):** Untuk menjalankan tanpa *progress bar* Gradle:
-    ```bash
-    .\gradlew.bat run --console=plain
-    ```
+*Script* secara otomatis menggunakan Gradle Wrapper (`gradlew.bat`) untuk mengompilasi semua file `.java` (menggunakan *task* `classes`) kemudian langsung menjalankan game menggunakan perintah `java` standar, yang memungkinkan fitur *clear console* berfungsi.
 
 ---
 

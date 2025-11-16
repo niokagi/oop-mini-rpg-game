@@ -1,0 +1,34 @@
+// gradle config
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+// source place
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+
+// target(main)
+application {
+    mainClass = 'core.GameManager'
+}
+
+// conn keyboard input w program
+run {
+    standardInput = System.in
+}

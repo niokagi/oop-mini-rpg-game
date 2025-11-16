@@ -1,4 +1,19 @@
-vscode/
-.DS_Store
+.gradle/
+build/
+
 *.class
+# dialog/narator w idn lang
+NarratorBackup.java
+
 *.log
+
+.idea/
+*.iml
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+.DS_Store
+Thumbs.db

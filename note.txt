@@ -1,0 +1,4 @@
+upcoming dev notes:
+1. fix heal formula (total HP can't increase when there's still plenty)
+2. inventory ascii style (separating header & content)
+3. mission progress (optimizing text color)

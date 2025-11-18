@@ -1,5 +1,7 @@
-package items;
+package models.items;
 
-public class QuestItem {
-    
+public class QuestItem extends Item {
+    public QuestItem(String name) {
+        super(name);
+    }
 }

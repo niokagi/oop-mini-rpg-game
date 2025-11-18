@@ -18,56 +18,45 @@ Manusia bertahan hidup di **Caldera Bunker**, sebuah pemukiman bawah tanah mandi
 
 ## Fitur Gameplay
 
-* **RPG Berbasis Konsol:** Seluruh interaksi dilakukan melalui input teks.
-* **Pertarungan Turn-Based:** Sistem pertarungan klasik melawan 4 musuh kunci (2 Minion, 1 Elite, 1 Boss).
+* **RPG Berbasis Konsol:** Seluruh interaksi dilakukan melalui input teks (memilih opsi).
+* **Pertarungan Turn-Based:** Sistem pertarungan taktis dengan 4 opsi: `Serang`, `Gunakan Item` (Hanya *Consumable*), `Heal` (Skill dengan *cooldown*), dan `Kabur`.
 * **Alur Cerita Linear:** Alur cerita memiliki progres yang jelas (Mulai => Misi => Menang/Kalah).
-* **Sistem Leveling:** Dapatkan EXP untuk naik level, meningkatkan HP dan Attack.
+* **Sistem Leveling Sederhana:** Mendapat EXP untuk naik level, meningkatkan HP dan Attack.
 * **Inventory Fungsional:**
     * **Equip/Unequip:** Player dapat memakai (`Weapon`, `Armor`) dan melepas item.
     * **Stat Dinamis:** Status `totalAttack` dan `totalDefense` Player akan ter-update secara otomatis.
     * **Consumables:** Player dapat menggunakan item (seperti `Dirty Bandage`) untuk memulihkan HP.
-* **Ending:** Permainan memiliki 2 akhir cerita (Menang/Kalah) berdasarkan keberhasilan misi, termasuk pesan moral/lingkungan di akhir.
+* **Ending:** Permainan memiliki 2 akhir cerita (Menang/Kalah) berdasarkan keberhasilan misi.
 
 ---
 
-## Cara Menjalankan Program
+## 3. Cara Menjalankan Program (Metode yang Direkomendasikan)
 
-Proyek ini tidak memerlukan Maven/Gradle. Cukup gunakan `javac` dan `java` dari terminal.
+Proyek ini menggunakan Gradle untuk proses kompilasi, namun memerlukan *script* khusus untuk berjalan dengan benar (agar utilitas *clear console* berfungsi).
 
-1.  Pastikan Anda memiliki Java (JDK) 11 atau lebih baru terinstal dan terkonfigurasi di `PATH` Anda.
-2.  Buka terminal/command prompt di folder *root* proyek (`SootFallout/`).
-3.  Buat direktori baru untuk menyimpan file `.class` (file yang sudah dikompilasi):
+1.  Pastikan sudah memiliki Java (JDK) 11 atau lebih baru.
+2.  Buka terminal/command prompt di folder *root* proyek (`Soot-Fallout/`).
+3.  Jalankan *script batch* kustom:
+
+    **Untuk Windows:**
     ```bash
-    mkdir bin
+    .\run-game.bat
     ```
-4.  Kompilasi semua file `.java` dari `src` ke dalam folder `bin`.
-    
-    *(note: Gunakan `/` untuk macOS/Linux dan `\` untuk Windows sebagai pemisah folder)*
-   
-    ```bash
-    # Untuk macOS/Linux:
-    javac -d bin src/core/*.java src/models/*.java src/models/items/*.java src/utils/*.java
-    
-    # Untuk Windows:
-    javac -d bin src\core\*.java src\models\*.java src\models\items\*.java src\utils\*.java
-    ```
-5.  Jalankan program dari *root*
-  
-    ```bash
-    java -cp bin core.GameManager
-    ```
+
+*Script* secara otomatis menggunakan Gradle Wrapper (`gradlew.bat`) untuk mengompilasi semua file `.java` (menggunakan *task* `classes`) kemudian langsung menjalankan game menggunakan perintah `java` standar, yang memungkinkan fitur *clear console* berfungsi.
 
 ---
 
 ## Struktur Proyek
 
-Struktur proyek disederhanakan untuk kompilasi manual, namun tetap mempertahankan paket modular.
-
 ```
-SootFallout/
-├── bin/       
+Soot-Fallout/
+├── .gradle/               
+├── build/                  
 ├── docs/
-│   └── DiagramClass.png
+│   └── DiagramClass.png 
+├── gradle/  
+│   └── wrapper/
 ├── src/                   
 │   ├── core/
 │   │   └── GameManager.java
@@ -84,8 +73,17 @@ SootFallout/
 │   │   ├── Entity.java (Abstract)
 │   │   └── Player.java
 │   └── utils/
+│       ├── AsciiArt.java
+│       ├── ConsoleUtils.java
 │       ├── InputHandler.java
 │       └── Narrator.java
+├── .gitattributes
+├── .gitignore
+├── build.gradle           
+├── gradlew                 
+├── gradlew.bat             
+├── run.bat        
+├── settings.gradle        
 └── README.md
 ```
 
@@ -93,9 +91,7 @@ SootFallout/
 
 ## Implementasi Konsep OOP
 
-Proyek ini dirancang secara spesifik untuk memenuhi semua persyaratan minimal OOP dari instruksi tugas mini project:
-
-* **Class & Object:** Menggunakan 12 *class* yang saling berinteraksi (jauh di atas minimal 3+1), termasuk `GameManager`, `Player`, `Monster`, `Item`, `InputHandler`, `Narrator`, dll.
+* **Class & Object:** Menggunakan **14 *class*** yang saling berinteraksi, termasuk `GameManager`, `Player`, `Monster`, `Item`, `InputHandler`, `Narrator`, dan `ConsoleUtils`.
 
 * **Inheritance (Pewarisan):**
     * `Player` dan `Monster` mewarisi (`extends`) dari `Entity`.
@@ -111,12 +107,11 @@ Proyek ini dirancang secara spesifik untuk memenuhi semua persyaratan minimal OO
 
 * **Encapsulation (Enkapsulasi):**
     * Semua atribut di *class models* (seperti `private int hp` di `Entity` atau `private int attackBonus` di `Weapon`) di-set sebagai `private`.
-    * Akses ke atribut diatur secara ketat melalui *method* publik (`getter` dan `setter` publik).
+    * Akses ke atribut tersebut diatur secara ketat melalui *method* publik (`getter` dan `setter` publik).
 
 * **Association (Asosiasi):**
-    * `Player` "HAS-A" `List<Item>` (Inventory).
-    * `GameManager` "HAS-A" `Player`.
-    * `GameManager` "HAS-A" `InputHandler` dan `Narrator`.
-    * `Monster` "HAS-A" `Item` (sebagai `itemDrop`).
-
+    * `Player` "has-a" `List<Item>` (Inventory).
+    * `GameManager` "has-a" `Player`.
+    * `GameManager` "has-a" `InputHandler` dan `Narrator`.
+    * `Monster` "has-a" `Item` (sebagai `itemDrop`).
 

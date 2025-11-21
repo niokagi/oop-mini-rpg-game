@@ -41,11 +41,12 @@ public abstract class Entity {
         }
     }
 
-    // heal
+    // heal mechanics
     public void heal(int amount) {
         this.hp += amount;
-        if (this.hp > this.maxHp) {
-            this.hp = this.maxHp;
+        // scenario: 93 + 25 = 118
+        if (this.hp > this.maxHp) { // 118 > 100(lvl 1) = true
+            this.hp = this.maxHp; // hp = maxHp(100) depends on level
         }
         System.out.println(ConsoleUtils.GREEN + this.name + " recovers " + amount + " HP." + ConsoleUtils.RESET);
     }

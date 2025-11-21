@@ -330,6 +330,7 @@ public class Player extends Entity {
             return false;
         }
 
+        // heal calc 
         int healAmount = this.maxHp / 4;
         this.heal(healAmount);
         this.healCooldown = 3;

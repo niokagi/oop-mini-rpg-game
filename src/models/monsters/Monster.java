@@ -33,7 +33,7 @@ public class Monster extends Entity {
         super.tookDamage(damageDiterima);
         // String tookDamage = ConsoleUtils.RED + damageDiterima + ConsoleUtils.RESET;
         String tookDamage = ConsoleUtils.RED + damageDiterima;
-        System.out.println(this.name + " took " + tookDamage + " damage." + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.GRAY + this.name + " took " + tookDamage + " damage." + ConsoleUtils.RESET);
     }
 
     // drop item
@@ -42,6 +42,7 @@ public class Monster extends Entity {
     }
 
     // getters
+    // ......
     public int getAttackPower() {
         return this.attackPower;
     }
@@ -51,7 +52,11 @@ public class Monster extends Entity {
     }
 
     // heal monster (restore HP)
-    public void heal(int amount) {
-        this.hp = Math.min(this.hp + amount, this.maxHp);
-    }
+    // when player getting revives
+    // public void heal(int amount) {
+    //     this.hp += amount;
+    //     if (this.hp > this.maxHp) {
+    //         this.hp = this.maxHp;
+    //     }
+    // }
 }

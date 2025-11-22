@@ -41,7 +41,7 @@ public class InputHandler {
     }
 
     public void pressEnterToContinue() {
-        System.out.println("\n[Press ENTER to continue...]");
+        System.out.print("\n[Press ENTER to continue...]");
         scanner.nextLine();
     }
 }

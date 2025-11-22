@@ -40,6 +40,7 @@ public class Player extends Entity {
         equipItem(starterArmor);
     }
 
+    // update stats
     private void updateStats() {
         this.totalAttack = this.baseAttack + (equippedWeapon != null ? equippedWeapon.getAttackBonus() : 0);
         this.totalDefense = this.baseDefense + (equippedArmor != null ? equippedArmor.getDefenseBonus() : 0);
@@ -67,15 +68,14 @@ public class Player extends Entity {
                                                                              // next (!)
         String reaction = reactions[ThreadLocalRandom.current().nextInt(reactions.length)];
         String dmgReceivedText = ConsoleUtils.RED + damageDiterima + " damage: ";
-        System.out.println(this.name + " receives " + dmgReceivedText + "\"" + reaction
+        System.out.println(ConsoleUtils.GRAY + this.name + " receives " + dmgReceivedText + "\"" + reaction
                 + "\"" + ConsoleUtils.RESET);
     }
-    //
 
     // + exp
     public boolean addExp(int amount) {
         this.exp += amount;
-        System.out.println(ConsoleUtils.CYAN + this.name + " gained " + amount + " EXP." + ConsoleUtils.RESET);
+        System.out.println("[!] " + this.name + " gained " + ConsoleUtils.CYAN + amount + " EXP." + ConsoleUtils.RESET);
         if (this.exp >= this.expToNextLevel) {
             levelUp();
             return true;
@@ -98,9 +98,11 @@ public class Player extends Entity {
     }
 
     // add item into inventory
+    // after beating monster/enemy
     public void addItemToInventory(Item item) {
         this.inventory.add(item);
-        System.out.println(ConsoleUtils.GREEN + item.getName() + " was added to your inventory." + ConsoleUtils.RESET);
+        System.out.println("[!] \"" + item.getName() + "\" was added to your inventory."
+                + ConsoleUtils.RESET);
     }
 
     // equip
@@ -156,7 +158,7 @@ public class Player extends Entity {
     public String useConsumable(Consumable item) {
         heal(item.getHpBonus());
         this.inventory.remove(item);
-        String feedback = item.getName() + " has been used.";
+        String feedback = ConsoleUtils.GRAY + item.getName() + " has been used.";
         System.out.println(feedback);
         return feedback;
     }
@@ -170,9 +172,10 @@ public class Player extends Entity {
         StringBuilder sb = new StringBuilder();
         sb.append(horizontalLine);
 
-        String title = "STATUS";
+        // status header
+        String title = "Status";
         int titlePadding = CONTENT_WIDTH - title.length();
-        sb.append("| " + ConsoleUtils.CYAN + title + ConsoleUtils.RESET
+        sb.append("| " + ConsoleUtils.BLUE + title + ConsoleUtils.RESET
                 + " ".repeat(titlePadding) + " |\n");
         // name
         String nameContent = "Name : " + this.name;
@@ -210,9 +213,9 @@ public class Player extends Entity {
         sb.append(emptyLine);
 
         // equipment header
-        String eqTitle = "EQUIPMENT";
+        String eqTitle = "Equipment";
         int eqTitlePadding = CONTENT_WIDTH - eqTitle.length();
-        sb.append("| " + ConsoleUtils.CYAN + eqTitle + ConsoleUtils.RESET
+        sb.append("| " + ConsoleUtils.BLUE + eqTitle + ConsoleUtils.RESET
                 + " ".repeat(eqTitlePadding) + " |\n");
         //
         String weaponContent;
@@ -251,7 +254,7 @@ public class Player extends Entity {
     }
 
     public void showInventory() {
-        System.out.println(ConsoleUtils.CYAN + "\nBACKPACK CONTENTS (INVENTORY): " + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.BLUE + "\nBackpack Contents (Inventory): " + ConsoleUtils.RESET);
         if (inventory.isEmpty()) {
             System.out.println("Backpack is Empty.");
             return;
@@ -261,6 +264,7 @@ public class Player extends Entity {
             String stats = "";
             String color = ConsoleUtils.RESET;
 
+            // coloring by item types
             if (item instanceof Weapon) {
                 stats = "(+" + ((Weapon) item).getAttackBonus() + " Atk)";
                 color = ConsoleUtils.RED;
@@ -274,7 +278,7 @@ public class Player extends Entity {
                 stats = "(Quest Item)";
                 color = ConsoleUtils.YELLOW;
             }
-            System.out.println((i + 1) + ". " + color + item.getName() + " " + stats + ConsoleUtils.RESET);
+            System.out.println((i + 1) + ". " + item.getName() + color + " " + stats + ConsoleUtils.RESET);
         }
     }
 
@@ -330,12 +334,11 @@ public class Player extends Entity {
             return false;
         }
 
-        // heal calc 
+        // heal calc
         int healAmount = this.maxHp / 4;
         this.heal(healAmount);
         this.healCooldown = 3;
-        System.out.println(this.name + " focuses energy and recovers " + healAmount + " HP.");
-        System.out.println("Heal Skill is now on cooldown (3 turns).");
+        System.out.println(ConsoleUtils.GRAY + "Heal Skill is now on cooldown (3 turns).");
         return true;
     }
 }

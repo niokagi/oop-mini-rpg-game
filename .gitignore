@@ -1,5 +1,6 @@
 .gradle/
 build/
+bin/
 
 *.class
 # dialog/narator w idn lang

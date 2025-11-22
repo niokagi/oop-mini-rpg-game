@@ -1,4 +1,8 @@
-upcoming dev notes:
-1. fix heal formula (total HP can't increase when there's still plenty)
-2. inventory ascii style (separating header & content)
-3. mission progress (optimizing text color)
+issue list:
+- Tambahan Bahasa Indonesia
+- Fix highlight warna per-baris:
+    FINISH: Hijau
+    AVAILABLE: Kuning
+    LOCKED: Merah
+- INVENTORY: Memasukkan "List Backpack Contents" ke dalam grid utama (bersama status & equipment)
+- fix battle mechanics a lil bit (damage system)

@@ -324,9 +324,17 @@ public class GameManager {
             if (!player.isAlive()) {
                 System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
                         + ConsoleUtils.RESET);
+                input.pressEnterToContinue();
                 isGameRunning = false;
                 ConsoleUtils.clear();
                 Narrator.showEndingB_Fail();
+                
+                // Ask if player wants to retry this battle
+                if (askRetryBattle()) {
+                    // Restore player HP and retry the same battle
+                    retryCurrentBattle(monster);
+                    return;
+                }
                 break;
             }
             if (!monster.isAlive()) {
@@ -345,9 +353,17 @@ public class GameManager {
                 if (!player.isAlive()) {
                     System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
                             + ConsoleUtils.RESET);
+                    input.pressEnterToContinue();
                     isGameRunning = false;
                     ConsoleUtils.clear();
                     Narrator.showEndingB_Fail();
+                    
+                    // Ask if player wants to retry this battle
+                    if (askRetryBattle()) {
+                        // Restore player HP and retry the same battle
+                        retryCurrentBattle(monster);
+                        return;
+                    }
                     break;
                 }
             }
@@ -464,5 +480,46 @@ public class GameManager {
             ConsoleUtils.clear();
             Narrator.showEndingA_Success();
         }
+    }
+
+    // ask if player wants to retry the battle after defeat
+    private boolean askRetryBattle() {
+        System.out.println("\n" + ConsoleUtils.YELLOW + "========================================" + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.CYAN + "Do you want to retry this battle? (y/n)" + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.YELLOW + "========================================" + ConsoleUtils.RESET);
+        
+        String choice = input.getString("Your choice: ");
+        
+        if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")) {
+            return true; // Will retry the battle
+        } else {
+            ConsoleUtils.clear();
+            System.out.println(ConsoleUtils.GRAY + "\nThank you for playing!" + ConsoleUtils.RESET);
+            return false; // Will exit the game
+        }
+    }
+
+    // retry the current battle with restored HP
+    private void retryCurrentBattle(Monster monster) {
+        ConsoleUtils.clear();
+        System.out.println(ConsoleUtils.GREEN + "\nRetrying battle..." + ConsoleUtils.RESET);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        // Restore player HP to full
+        player.heal(player.getMaxHp());
+        
+        // Restore monster HP to full
+        monster.heal(monster.getMaxHp());
+        
+        // Reset game state
+        isGameRunning = true;
+        
+        // Restart the battle
+        ConsoleUtils.clear();
+        startBattle(monster);
     }
 }

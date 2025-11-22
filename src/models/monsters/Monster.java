@@ -49,4 +49,9 @@ public class Monster extends Entity {
     public int getDefensePower() {
         return this.defensePower;
     }
+
+    // heal monster (restore HP)
+    public void heal(int amount) {
+        this.hp = Math.min(this.hp + amount, this.maxHp);
+    }
 }

@@ -115,15 +115,16 @@ public class GameManager {
 
         // mission progress text formatting
         System.out.println("\nMission Progress:");
-        String m1 = monster1Kalah ? ConsoleUtils.GREEN + "FINISHED" : ConsoleUtils.RED + "NOT YET" + ConsoleUtils.RESET;
-        String m2 = monster2Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster1Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
+        String m1 = monster1Kalah ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
+                : ConsoleUtils.RED + "NOT YET" + ConsoleUtils.RESET;
+        String m2 = monster2Kalah ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET //
+                : (monster1Kalah ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m3 = monster3Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster2Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
+        String m3 = monster3Kalah ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
+                : (monster2Kalah ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
         String m4 = boss4Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster3Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
+                : (monster3Kalah ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
 
         System.out.println("1. [Service Tunnels] - " + m1);
@@ -249,15 +250,16 @@ public class GameManager {
     }
 
     private void buildPlayerMenu() {
-        String healStatus = player.getHealCooldown() > 0 ? "(CD: " + player.getHealCooldown() + ")" : "(Ready)";
-
-        String options = String.format("| (1) Attack  (2) Use Item  (3) Heal %-7s  (4) Flee          |", healStatus);
+        // heal cooldown logic
+        // w ternary opr
+        String healStatus = player.getHealCooldown() > 0 ? "CD: " + player.getHealCooldown() + "" : "Ready";
+        String options = String.format("| (1) Attack  (2) Use Item  (3) Heal: %-7s  (4) Flee         |", healStatus);
         String top = "+-- Your Turn! -------------------------------------------------+";
         String bottom = "+-- Choose one option: -----------------------------------------+";
 
-        System.out.println(ConsoleUtils.CYAN + top + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.RESET + top + ConsoleUtils.RESET);
         System.out.println(options);
-        System.out.println(ConsoleUtils.CYAN + bottom + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.RESET + bottom + ConsoleUtils.RESET);
     }
     //
 
@@ -299,7 +301,7 @@ public class GameManager {
             buildStatBlock(monster);
             buildPlayerMenu();
 
-            int choice = input.getInt("Your choice (1-4): ", 1, 4);
+            int choice = input.getInt(ConsoleUtils.GRAY + "Your choice (1-4): " + ConsoleUtils.RESET, 1, 4);
             boolean turnUsed = false;
 
             // action's option
@@ -330,7 +332,7 @@ public class GameManager {
                 break;
             }
             if (!monster.isAlive()) {
-                System.out.println("\n[!]" + ConsoleUtils.GREEN + monster.getName() + " has been defeated!"
+                System.out.println("\n[!] " + ConsoleUtils.GREEN + monster.getName() + " has been defeated!"
                         + ConsoleUtils.RESET);
                 break;
             }
@@ -363,7 +365,7 @@ public class GameManager {
         String feedback = "";
 
         if (inBattle) {
-            System.out.println(ConsoleUtils.YELLOW + "\n--- OPENING BAG (CONSUMABLES ONLY) ---" + ConsoleUtils.RESET);
+            System.out.println(ConsoleUtils.YELLOW + "\nOPENING BAG (CONSUMABLES ONLY):" + ConsoleUtils.RESET);
             List<Consumable> consumables = player.getConsumableItems();
 
             if (consumables.isEmpty()) {

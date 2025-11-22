@@ -8,6 +8,8 @@ import utils.AsciiArt;
 import utils.ConsoleUtils;
 import utils.InputHandler;
 import utils.Narrator;
+import utils.Language;
+import utils.LanguageManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,9 @@ public class GameManager {
 
     // start game factory / preparation
     public void startGame() {
+        // Language selection first
+        selectLanguage();
+        
         ConsoleUtils.clear();
         Narrator.showIntro();
         input.pressEnterToContinue();
@@ -55,12 +60,31 @@ public class GameManager {
         }
 
         input.close();
-        System.out.println("Shutting down Caldera Bunker systems...");
+        System.out.println(LanguageManager.getText("shutting_down"));
+    }
+
+    // language selection menu
+    private void selectLanguage() {
+        ConsoleUtils.clear();
+        System.out.println(ConsoleUtils.CYAN + "=============================================");
+        System.out.println(LanguageManager.getText("lang_select_title"));
+        System.out.println("=============================================\n" + ConsoleUtils.RESET);
+        System.out.println(LanguageManager.getText("lang_select_option1"));
+        System.out.println(LanguageManager.getText("lang_select_option2"));
+        System.out.println();
+        
+        int choice = input.getInt(LanguageManager.getText("lang_select_prompt"), 1, 2);
+        
+        if (choice == 1) {
+            LanguageManager.setLanguage(Language.ENGLISH);
+        } else {
+            LanguageManager.setLanguage(Language.INDONESIAN);
+        }
     }
 
     // setup preparation
     private void setupGame() {
-        String playerName = input.getString("Enter your Thermo-Scavenger's name: ");
+        String playerName = input.getString(LanguageManager.getText("enter_name"));
         this.player = new Player(playerName);
 
         this.item1 = new QuestItem("Used Turbine Blade");
@@ -84,17 +108,17 @@ public class GameManager {
         ConsoleUtils.clear();
 
         if (this.feedbackMessage != null && !this.feedbackMessage.isEmpty()) {
-            System.out.println(ConsoleUtils.YELLOW + "\nInfo: " + this.feedbackMessage + ConsoleUtils.RESET);
+            System.out.println(ConsoleUtils.YELLOW + "\n" + LanguageManager.getText("info_label") + this.feedbackMessage + ConsoleUtils.RESET);
             this.feedbackMessage = "";
         }
 
         final int CONTENT_WIDTH = 48;
-        String topBorder = "----------- Caldera Bunker (Main hub) --------------";
+        String topBorder = "----------- " + LanguageManager.getText("main_hub_title") + " --------------";
         String bottomBorder = "----------------------------------------------------";
         StringBuilder sb = new StringBuilder();
 
         sb.append(ConsoleUtils.CYAN + "\n" + topBorder + ConsoleUtils.RESET + "\n");
-        String statusLabel = "Status: " + player.getName() + " (";
+        String statusLabel = LanguageManager.getText("status_label") + player.getName() + " (";
         String hpValue = player.getHp() + "/" + player.getMaxHp() + " HP";
         String statusSuffix = ")";
         String statusContent = statusLabel + ConsoleUtils.GREEN + hpValue + ConsoleUtils.RESET + statusSuffix;
@@ -106,7 +130,7 @@ public class GameManager {
         }
 
         sb.append("| " + statusContent + " ".repeat(statusPadding) + " |\n");
-        String missionContent = "Mission: Find the 4 Components of the Regulator.";
+        String missionContent = LanguageManager.getText("mission_label");
         int missionPadding = CONTENT_WIDTH - missionContent.length();
         sb.append("| " + missionContent + " ".repeat(missionPadding) + " |\n");
 
@@ -114,29 +138,29 @@ public class GameManager {
         System.out.print(sb.toString());
 
         // mission progress text formatting
-        System.out.println("\nMission Progress:");
-        String m1 = monster1Kalah ? ConsoleUtils.GREEN + "FINISHED" : ConsoleUtils.RED + "NOT YET" + ConsoleUtils.RESET;
-        String m2 = monster2Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster1Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m3 = monster3Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster2Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m4 = boss4Kalah ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster3Kalah ? ConsoleUtils.YELLOW + "AVAILABLE"
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
+        System.out.println("\n" + LanguageManager.getText("mission_progress"));
+        String m1 = monster1Kalah ? ConsoleUtils.GREEN + LanguageManager.getText("status_finished") : ConsoleUtils.RED + LanguageManager.getText("status_not_yet") + ConsoleUtils.RESET;
+        String m2 = monster2Kalah ? ConsoleUtils.GREEN + LanguageManager.getText("status_finished")
+                : (monster1Kalah ? ConsoleUtils.YELLOW + LanguageManager.getText("status_available")
+                        : ConsoleUtils.RED + LanguageManager.getText("status_locked") + ConsoleUtils.RESET);
+        String m3 = monster3Kalah ? ConsoleUtils.GREEN + LanguageManager.getText("status_finished")
+                : (monster2Kalah ? ConsoleUtils.YELLOW + LanguageManager.getText("status_available")
+                        : ConsoleUtils.RED + LanguageManager.getText("status_locked") + ConsoleUtils.RESET);
+        String m4 = boss4Kalah ? ConsoleUtils.GREEN + LanguageManager.getText("status_finished")
+                : (monster3Kalah ? ConsoleUtils.YELLOW + LanguageManager.getText("status_available")
+                        : ConsoleUtils.RED + LanguageManager.getText("status_locked") + ConsoleUtils.RESET);
 
-        System.out.println("1. [Service Tunnels] - " + m1);
-        System.out.println("2. [Outer Power Station] - " + m2);
-        System.out.println("3. [Generator Building] - " + m3);
-        System.out.println("4. [Core Control Room] - " + m4);
+        System.out.println("1. [" + LanguageManager.getText("location_service_tunnels") + "] - " + m1);
+        System.out.println("2. [" + LanguageManager.getText("location_outer_power") + "] - " + m2);
+        System.out.println("3. [" + LanguageManager.getText("location_generator") + "] - " + m3);
+        System.out.println("4. [" + LanguageManager.getText("location_core_control") + "] - " + m4);
 
         System.out.println("\nOptions:");
-        System.out.println("1. Explore Next Mission Location");
-        System.out.println("2. View Status & Inventory");
-        System.out.println("3. Exit Game");
+        System.out.println(LanguageManager.getText("menu_option1"));
+        System.out.println(LanguageManager.getText("menu_option2"));
+        System.out.println(LanguageManager.getText("menu_option3"));
 
-        int choice = input.getInt("Your choice (1-3): ", 1, 3);
+        int choice = input.getInt(LanguageManager.getText("choice_prompt"), 1, 3);
 
         switch (choice) {
             case 1:
@@ -146,7 +170,7 @@ public class GameManager {
                 this.feedbackMessage = showInventoryMenu(false);
                 break;
             case 3:
-                System.out.println("Are you sure you want to exit?? (y/n)");
+                System.out.println(LanguageManager.getText("exit_confirm"));
                 if (input.getString("").equalsIgnoreCase("y")) {
                     isGameRunning = false;
                     ConsoleUtils.clear();
@@ -167,8 +191,8 @@ public class GameManager {
                 player.addItemToInventory(item1);
                 boolean leveledUp = player.addExp(50);
                 if (leveledUp) {
-                    this.feedbackMessage = "[!] LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased.";
+                    this.feedbackMessage = LanguageManager.getText("level_up") + player.getLevel()
+                            + LanguageManager.getText("stats_increased");
                 }
             }
         } else if (!monster2Kalah) {
@@ -181,16 +205,16 @@ public class GameManager {
                 player.addItemToInventory(item2);
                 boolean leveledUp = player.addExp(75);
                 if (leveledUp) {
-                    this.feedbackMessage = "[!] LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased.";
+                    this.feedbackMessage = LanguageManager.getText("level_up") + player.getLevel()
+                            + LanguageManager.getText("stats_increased");
                 }
             }
         } else if (!monster3Kalah) {
             Narrator.showLocation("Generator Building");
-            System.out.println("The map shows two routes:");
-            System.out.println("1. Go through the Main Hall (Guarded by Scavenger Heavy)");
-            System.out.println("2. Go through the Coolant Tunnels (Alpha Crawler's Nest)");
-            int rute = input.getInt("Choose route (1-2): ", 1, 2);
+            System.out.println(LanguageManager.getText("route_map"));
+            System.out.println(LanguageManager.getText("route_option1"));
+            System.out.println(LanguageManager.getText("route_option2"));
+            int rute = input.getInt(LanguageManager.getText("route_prompt"), 1, 2);
 
             Monster monsterPilihan = (rute == 1) ? monster3a : monster3b;
             startBattle(monsterPilihan);
@@ -201,8 +225,8 @@ public class GameManager {
                 player.addItemToInventory(item3);
                 boolean leveledUp = player.addExp(150);
                 if (leveledUp) {
-                    this.feedbackMessage = "[!] LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased.";
+                    this.feedbackMessage = LanguageManager.getText("level_up") + player.getLevel()
+                            + LanguageManager.getText("stats_increased");
                 }
             }
         } else if (!boss4Kalah) {
@@ -214,13 +238,13 @@ public class GameManager {
                 player.addItemToInventory(boss4.dropItem());
                 boolean leveledUp = player.addExp(300);
                 if (leveledUp) {
-                    this.feedbackMessage = "[!] LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased.";
+                    this.feedbackMessage = LanguageManager.getText("level_up") + player.getLevel()
+                            + LanguageManager.getText("stats_increased");
                 }
                 winConditionCheck();
             }
         } else {
-            System.out.println("All missions are complete. You have saved the Caldera Bunker!");
+            System.out.println(LanguageManager.getText("missions_complete"));
         }
 
         if (player.isAlive() && isGameRunning) {
@@ -249,11 +273,16 @@ public class GameManager {
     }
 
     private void buildPlayerMenu() {
-        String healStatus = player.getHealCooldown() > 0 ? "(CD: " + player.getHealCooldown() + ")" : "(Ready)";
+        String healStatus = player.getHealCooldown() > 0 ? "(" + LanguageManager.getText("cd") + player.getHealCooldown() + ")" : "(" + LanguageManager.getText("ready") + ")";
 
-        String options = String.format("| (1) Attack  (2) Use Item  (3) Heal %-7s  (4) Flee          |", healStatus);
-        String top = "+-- Your Turn! -------------------------------------------------+";
-        String bottom = "+-- Choose one option: -----------------------------------------+";
+        String options = String.format("| %s  %s  %s %-7s  %s          |", 
+                LanguageManager.getText("battle_option1"),
+                LanguageManager.getText("battle_option2"),
+                LanguageManager.getText("battle_option3"),
+                healStatus,
+                LanguageManager.getText("battle_option4"));
+        String top = "+-- " + LanguageManager.getText("player_turn") + " -------------------------------------------------+";
+        String bottom = "+-- " + LanguageManager.getText("choose_option") + " -----------------------------------------+";
 
         System.out.println(ConsoleUtils.CYAN + top + ConsoleUtils.RESET);
         System.out.println(options);
@@ -299,7 +328,7 @@ public class GameManager {
             buildStatBlock(monster);
             buildPlayerMenu();
 
-            int choice = input.getInt("Your choice (1-4): ", 1, 4);
+            int choice = input.getInt(LanguageManager.getText("battle_choice_prompt"), 1, 4);
             boolean turnUsed = false;
 
             // action's option
@@ -314,7 +343,7 @@ public class GameManager {
             } else if (choice == 3) {
                 turnUsed = player.useHealSkill();
             } else if (choice == 4) {
-                System.out.println("You turn and flee from the fight...");
+                System.out.println(LanguageManager.getText("flee_message"));
                 isGameRunning = false;
                 ConsoleUtils.clear();
                 Narrator.showEndingC_Flee();
@@ -322,7 +351,7 @@ public class GameManager {
             }
 
             if (!player.isAlive()) {
-                System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
+                System.out.println("\n" + ConsoleUtils.RED + player.getName() + LanguageManager.getText("defeated_message")
                         + ConsoleUtils.RESET);
                 isGameRunning = false;
                 ConsoleUtils.clear();
@@ -330,7 +359,7 @@ public class GameManager {
                 break;
             }
             if (!monster.isAlive()) {
-                System.out.println("\n[!]" + ConsoleUtils.GREEN + monster.getName() + " has been defeated!"
+                System.out.println("\n[!]" + ConsoleUtils.GREEN + monster.getName() + LanguageManager.getText("defeated_message")
                         + ConsoleUtils.RESET);
                 break;
             }
@@ -339,11 +368,11 @@ public class GameManager {
             if (turnUsed) {
                 player.decrementHealCooldown();
 
-                System.out.println(ConsoleUtils.RED + "\nEnemy Turn:" + ConsoleUtils.RESET);
+                System.out.println(ConsoleUtils.RED + "\n" + LanguageManager.getText("enemy_turn") + ConsoleUtils.RESET);
                 monster.attack(player);
 
                 if (!player.isAlive()) {
-                    System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
+                    System.out.println("\n" + ConsoleUtils.RED + player.getName() + LanguageManager.getText("defeated_message")
                             + ConsoleUtils.RESET);
                     isGameRunning = false;
                     ConsoleUtils.clear();
@@ -363,11 +392,11 @@ public class GameManager {
         String feedback = "";
 
         if (inBattle) {
-            System.out.println(ConsoleUtils.YELLOW + "\n--- OPENING BAG (CONSUMABLES ONLY) ---" + ConsoleUtils.RESET);
+            System.out.println(ConsoleUtils.YELLOW + "\n" + LanguageManager.getText("opening_bag") + ConsoleUtils.RESET);
             List<Consumable> consumables = player.getConsumableItems();
 
             if (consumables.isEmpty()) {
-                System.out.println("You have no usable items in combat.");
+                System.out.println(LanguageManager.getText("no_usable_items"));
                 return "";
             }
 
@@ -377,9 +406,9 @@ public class GameManager {
                         + " HP)" + ConsoleUtils.RESET);
             }
 
-            int itemChoice = input.getInt("Enter item number (0 to Cancel): ", 0, consumables.size());
+            int itemChoice = input.getInt(LanguageManager.getText("enter_item_number"), 0, consumables.size());
             if (itemChoice == 0) {
-                System.out.println("Canceled item use. Turn not used.");
+                System.out.println(LanguageManager.getText("canceled_item"));
                 return "";
             }
 
@@ -392,33 +421,33 @@ public class GameManager {
             player.showStatus();
             player.showInventory();
 
-            System.out.println("\nINVENTORY OPTIONS:");
-            System.out.println("1. Use/Equip Item");
-            System.out.println("2. Unequip Item");
-            System.out.println("0. Back");
+            System.out.println("\n" + LanguageManager.getText("inventory_options"));
+            System.out.println(LanguageManager.getText("inv_option1"));
+            System.out.println(LanguageManager.getText("inv_option2"));
+            System.out.println(LanguageManager.getText("inv_option0"));
 
-            int choice = input.getInt("Your choice (0-2): ", 0, 2);
+            int choice = input.getInt(LanguageManager.getText("inv_choice_prompt"), 0, 2);
 
             if (choice == 0) {
                 return "";
             } else if (choice == 1) {
                 if (player.getInventory().isEmpty()) {
-                    feedback = "Backpack is empty.";
+                    feedback = LanguageManager.getText("backpack_empty");
                     System.out.println(feedback);
                     return feedback;
                 }
 
                 player.showInventory();
-                int itemChoice = input.getInt("Enter item number (0 to Cancel): ", 0, player.getInventory().size());
+                int itemChoice = input.getInt(LanguageManager.getText("enter_item_number"), 0, player.getInventory().size());
 
                 if (itemChoice == 0) {
-                    feedback = "Canceled item selection.";
+                    feedback = LanguageManager.getText("canceled_selection");
                     System.out.println(feedback);
                     return feedback;
                 }
 
                 if (itemChoice - 1 >= player.getInventory().size() || itemChoice - 1 < 0) {
-                    feedback = "Invalid item number.";
+                    feedback = LanguageManager.getText("invalid_item");
                     System.out.println(feedback);
                     return feedback;
                 }
@@ -430,20 +459,20 @@ public class GameManager {
                 } else if (selectedItem instanceof Weapon || selectedItem instanceof Armor) {
                     feedback = player.equipItem(selectedItem);
                 } else if (selectedItem instanceof QuestItem) {
-                    feedback = selectedItem.getName() + " is a quest item and cannot be used.";
+                    feedback = selectedItem.getName() + LanguageManager.getText("quest_item_msg");
                     System.out.println(feedback);
                 }
                 return feedback;
 
             } else if (choice == 2) {
-                System.out.println("Unequip [1] Weapon or [2] Armor? (0 to Cancel)");
-                int slotChoice = input.getInt("Your choice (0-2): ", 0, 2);
+                System.out.println(LanguageManager.getText("unequip_prompt"));
+                int slotChoice = input.getInt(LanguageManager.getText("inv_choice_prompt"), 0, 2);
                 if (slotChoice == 1) {
                     feedback = player.unequipItem("weapon");
                 } else if (slotChoice == 2) {
                     feedback = player.unequipItem("armor");
                 } else {
-                    feedback = "Canceled unequip.";
+                    feedback = LanguageManager.getText("canceled_unequip");
                 }
                 return feedback;
             }

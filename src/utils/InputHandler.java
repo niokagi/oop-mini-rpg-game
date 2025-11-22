@@ -26,10 +26,10 @@ public class InputHandler {
                 if (choice >= min && choice <= max) {
                     break;
                 } else {
-                    System.out.println("Invalid choice. Enter a number between " + min + " and " + max + ".");
+                    System.out.println(LanguageManager.getText("invalid_choice") + min + LanguageManager.getText("and") + max + ".");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Incorrect input. Please enter a valid number.");
+                System.out.println(LanguageManager.getText("incorrect_input"));
             }
         }
         return choice;
@@ -41,7 +41,7 @@ public class InputHandler {
     }
 
     public void pressEnterToContinue() {
-        System.out.println("\n[Press ENTER to continue...]");
+        System.out.println("\n" + LanguageManager.getText("press_enter"));
         scanner.nextLine();
     }
 }

@@ -71,4 +71,28 @@ public class AsciiArt {
 
         System.out.println(ConsoleUtils.RESET);
     }
+
+    public static void showPlayerFleeing() {
+        System.out.println(ConsoleUtils.YELLOW);
+        System.out.println("                _");
+        System.out.println("              _( }");
+        System.out.println("    -=   _  <<  \\");
+        System.out.println("        `.\\__/`/\\\\");
+        System.out.println("  -=      '--'\\\\  `");
+        System.out.println("       -=     //");
+        System.out.println("              \\)");
+        System.out.println(ConsoleUtils.RESET);
+    }
+
+    public static void showMedBot() {
+        System.out.println(ConsoleUtils.GREEN);
+        System.out.println("       (o) ");
+        System.out.println("      __|__ ");
+        System.out.println("     /  " + ConsoleUtils.RED + "+" + ConsoleUtils.GREEN + "  \\ "); // Simbol + Hijau
+        System.out.println("    | [===] |");
+        System.out.println("     \\_____/ ");
+        System.out.println("     / v v \\ ");
+        System.out.println("    '       ' ");
+        System.out.print(ConsoleUtils.RESET);
+    }
 }

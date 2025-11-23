@@ -150,16 +150,16 @@ public class GameManager {
         // end of header
 
         System.out.println("\nMission Progress:");
-        String m1 = monster1Defeated ? ConsoleUtils.GREEN + "FINISHED"
+        String m1 = monster1Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
                 : ConsoleUtils.RED + "NOT YET" + ConsoleUtils.RESET;
-        String m2 = monster2Defeated ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster1Defeated ? ConsoleUtils.YELLOW + "AVAILABLE"
+        String m2 = monster2Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
+                : (monster1Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m3 = monster3Defeated ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster2Defeated ? ConsoleUtils.YELLOW + "AVAILABLE"
+        String m3 = monster3Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
+                : (monster2Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m4 = boss4Defeated ? ConsoleUtils.GREEN + "FINISHED"
-                : (monster3Defeated ? ConsoleUtils.YELLOW + "AVAILABLE"
+        String m4 = boss4Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
+                : (monster3Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
                         : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
 
         System.out.println("1. [Service Tunnels] - " + m1);
@@ -303,7 +303,7 @@ public class GameManager {
             buildStatBlock(monster);
             buildPlayerMenu();
 
-            int choice = input.getInt("Your choice (1-4): ", 1, 4);
+            int choice = input.getInt(ConsoleUtils.GRAY + "Your choice (1-4): " + ConsoleUtils.RESET, 1, 4);
             boolean turnUsed = false;
 
             // action's option

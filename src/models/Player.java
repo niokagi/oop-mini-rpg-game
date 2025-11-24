@@ -248,7 +248,61 @@ public class Player extends Entity {
         int armorPadding = CONTENT_WIDTH - armorVisibleLength;
         sb.append("| " + armorContent + " ".repeat(armorPadding) + " |\n");
 
-        // bottom line
+        // separator
+        sb.append(emptyLine);
+
+        // Inventory Header
+        String invTitle = "Backpack Contents";
+        int invTitlePadding = CONTENT_WIDTH - invTitle.length();
+        sb.append("| " + ConsoleUtils.BLUE + invTitle + ConsoleUtils.RESET
+                + " ".repeat(invTitlePadding) + " |\n");
+
+        if (inventory.isEmpty()) {
+            String emptyMsg = "Backpack is Empty.";
+            int emptyPadding = CONTENT_WIDTH - emptyMsg.length();
+            sb.append("| " + emptyMsg + " ".repeat(emptyPadding) + " |\n");
+        } else {
+            for (int i = 0; i < inventory.size(); i++) {
+                Item item = inventory.get(i);
+                String stats = "";
+                String color = ConsoleUtils.RESET;
+
+                if (item instanceof Weapon) {
+                    stats = "(+" + ((Weapon) item).getAttackBonus() + " Atk)";
+                    color = ConsoleUtils.RED;
+                } else if (item instanceof Armor) {
+                    stats = "(+" + ((Armor) item).getDefenseBonus() + " Def)";
+                    color = ConsoleUtils.BLUE;
+                } else if (item instanceof Consumable) {
+                    stats = "(+" + ((Consumable) item).getHpBonus() + " HP)";
+                    color = ConsoleUtils.GREEN;
+                } else if (item instanceof QuestItem) {
+                    stats = "(Quest Item)";
+                    color = ConsoleUtils.YELLOW;
+                }
+
+                // Format: "1. ItemName (Stats)"
+                String itemLabel = (i + 1) + ". " + item.getName();
+                String itemDisplay = itemLabel + " " + stats; // Plain text for length calc
+
+                // Truncate if too long (simple safety)
+                if (itemDisplay.length() > CONTENT_WIDTH) {
+                    // This is a basic truncation, might cut off stats, but keeps box intact
+                    // Ideally we'd wrap, but keeping it simple for now as per request
+                }
+
+                int itemPadding = CONTENT_WIDTH - itemDisplay.length();
+                if (itemPadding < 0)
+                    itemPadding = 0;
+
+                // Reconstruct with colors
+                String coloredLine = itemLabel + color + " " + stats + ConsoleUtils.RESET;
+
+                sb.append("| " + coloredLine + " ".repeat(itemPadding) + " |\n");
+            }
+        }
+
+        // Final bottom line
         sb.append(horizontalLine);
         System.out.print(sb.toString());
     }

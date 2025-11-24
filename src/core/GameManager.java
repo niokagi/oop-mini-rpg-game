@@ -322,7 +322,6 @@ public class GameManager {
                 player.heal(player.getMaxHp());
                 monster.heal(monster.getMaxHp());
                 ConsoleUtils.clear();
-                //
 
                 AsciiArt.showPlayerFleeing();
                 System.err.println();

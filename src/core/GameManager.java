@@ -322,11 +322,12 @@ public class GameManager {
                 player.heal(player.getMaxHp());
                 monster.heal(monster.getMaxHp());
                 ConsoleUtils.clear();
-                // 
-                
+                //
+
                 AsciiArt.showPlayerFleeing();
                 System.err.println();
-                System.out.println(ConsoleUtils.YELLOW + "You chose to flee! Sprinting back to safety..." + ConsoleUtils.RESET);
+                System.out.println(
+                        ConsoleUtils.YELLOW + "You chose to flee! Sprinting back to safety..." + ConsoleUtils.RESET);
 
                 this.feedbackMessage = "You fled from " + monster.getName()
                         + ". You are rested and ready to try again.";
@@ -455,7 +456,7 @@ public class GameManager {
         } else {
             ConsoleUtils.clear();
             player.showStatus();
-            player.showInventory();
+            // player.showInventory(); // Moved inside showStatus
 
             System.out.println("\nInventory Options:");
             System.out.println("1. Use/Equip Item");

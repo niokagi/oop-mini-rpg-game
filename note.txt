@@ -1,8 +1,0 @@
-issue list:
-- Tambahan Bahasa Indonesia
-- Fix highlight warna per-baris:
-    FINISH: Hijau
-    AVAILABLE: Kuning
-    LOCKED: Merah
-- INVENTORY: Memasukkan "List Backpack Contents" ke dalam grid utama (bersama status & equipment)
-- fix battle mechanics a lil bit (damage system)

@@ -8,6 +8,7 @@ import utils.AsciiArt;
 import utils.ConsoleUtils;
 import utils.InputHandler;
 import utils.Narrator;
+import utils.Language;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,14 @@ public class GameManager {
     public void startGame() {
         ConsoleUtils.clear();
         String playerName = input.getString("Enter your Thermo-Scavenger's name: ");
+
+        // language selection (after nickname, before prolog)
+        System.out.println("\nChoose language / Pilih bahasa:");
+        System.out.println("1) English");
+        System.out.println("2) Bahasa Indonesia");
+        int langChoice = input.getInt("Select (1-2): ", 1, 2);
+        Language chosen = Language.fromInt(langChoice);
+        Narrator.setLanguage(chosen);
         boolean keepPlaying = true;
 
         // if player keepPlayig / revive
@@ -103,14 +112,16 @@ public class GameManager {
     private void showMainMenu() {
         ConsoleUtils.clear();
         if (this.feedbackMessage != null && !this.feedbackMessage.isEmpty()) {
-            System.out.println(ConsoleUtils.GRAY + "\nInfo: " + this.feedbackMessage + ConsoleUtils.RESET);
+            String infoLabel = (Narrator.getLanguage() == Language.ID) ? "\nInformasi: " : "\nInfo: ";
+            System.out.println(ConsoleUtils.GRAY + infoLabel + this.feedbackMessage + ConsoleUtils.RESET);
             this.feedbackMessage = "";
         }
         final int CONTENT_WIDTH = 48;
 
         // top border
-        System.out.print(ConsoleUtils.GRAY + "\n=============" + ConsoleUtils.RESET + " Caldera Bunker (main hub) "
-                + ConsoleUtils.GRAY + "=============\n\n" + ConsoleUtils.RESET);
+        String hubLabel = (Narrator.getLanguage() == Language.ID) ? "Caldera Bunker (hub utama)" : "Caldera Bunker (main hub)";
+        System.out.print(ConsoleUtils.GRAY + "\n=============" + ConsoleUtils.RESET + " " + hubLabel + " "
+            + ConsoleUtils.GRAY + "=============\n\n" + ConsoleUtils.RESET);
 
         // stats
         String statusLabel = "Status    : " + player.getName() + " (";
@@ -126,7 +137,9 @@ public class GameManager {
         System.out.print(" ".repeat(statusPadding) + "\n");
 
         // mission
-        String missionContent = "Mission   : Find the 4 Components of the Regulator.";
+        String missionContent = (Narrator.getLanguage() == Language.ID)
+            ? "Mission   : Temukan 4 Komponen Regulator."
+            : "Mission   : Find the 4 Components of the Regulator.";
         int missionPadding = CONTENT_WIDTH - missionContent.length();
         if (missionPadding < 0)
             missionPadding = 0;
@@ -134,7 +147,7 @@ public class GameManager {
         System.out.print(missionContent + " ".repeat(missionPadding) + "\n");
 
         // med bot / revival
-        String medBotLabel = "Revival   : ";
+        String medBotLabel = (Narrator.getLanguage() == Language.ID) ? "Pemulihan : " : "Revival   : ";
         String medBotValue = this.reviveCharges + "/3";
 
         int medBotVisibleLength = medBotLabel.length() + medBotValue.length();
@@ -149,30 +162,38 @@ public class GameManager {
                 ConsoleUtils.GRAY + "\n=====================================================" + ConsoleUtils.RESET);
         // end of header
 
-        System.out.println("\nMission Progress:");
-        String m1 = monster1Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
-                : ConsoleUtils.RED + "NOT YET" + ConsoleUtils.RESET;
-        String m2 = monster2Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
-                : (monster1Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m3 = monster3Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
-                : (monster2Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
-        String m4 = boss4Defeated ? ConsoleUtils.GREEN + "FINISHED" + ConsoleUtils.RESET
-                : (monster3Defeated ? ConsoleUtils.YELLOW + "AVAILABLE" + ConsoleUtils.RESET
-                        : ConsoleUtils.RED + "LOCKED" + ConsoleUtils.RESET);
+        System.out.println((Narrator.getLanguage() == Language.ID) ? "\nProgres Misi:" : "\nMission Progress:");
+        String m1 = monster1Defeated ? ConsoleUtils.GREEN + (Narrator.getLanguage() == Language.ID ? "SELESAI" : "FINISHED") + ConsoleUtils.RESET
+            : ConsoleUtils.RED + (Narrator.getLanguage() == Language.ID ? "BELUM" : "NOT YET") + ConsoleUtils.RESET;
+        String m2 = monster2Defeated ? ConsoleUtils.GREEN + (Narrator.getLanguage() == Language.ID ? "SELESAI" : "FINISHED") + ConsoleUtils.RESET
+            : (monster1Defeated ? ConsoleUtils.YELLOW + (Narrator.getLanguage() == Language.ID ? "TERSEDIA" : "AVAILABLE") + ConsoleUtils.RESET
+                : ConsoleUtils.RED + (Narrator.getLanguage() == Language.ID ? "TERKUNCI" : "LOCKED") + ConsoleUtils.RESET);
+        String m3 = monster3Defeated ? ConsoleUtils.GREEN + (Narrator.getLanguage() == Language.ID ? "SELESAI" : "FINISHED") + ConsoleUtils.RESET
+            : (monster2Defeated ? ConsoleUtils.YELLOW + (Narrator.getLanguage() == Language.ID ? "TERSEDIA" : "AVAILABLE") + ConsoleUtils.RESET
+                : ConsoleUtils.RED + (Narrator.getLanguage() == Language.ID ? "TERKUNCI" : "LOCKED") + ConsoleUtils.RESET);
+        String m4 = boss4Defeated ? ConsoleUtils.GREEN + (Narrator.getLanguage() == Language.ID ? "SELESAI" : "FINISHED") + ConsoleUtils.RESET
+            : (monster3Defeated ? ConsoleUtils.YELLOW + (Narrator.getLanguage() == Language.ID ? "TERSEDIA" : "AVAILABLE") + ConsoleUtils.RESET
+                : ConsoleUtils.RED + (Narrator.getLanguage() == Language.ID ? "TERKUNCI" : "LOCKED") + ConsoleUtils.RESET);
 
         System.out.println("1. [Service Tunnels] - " + m1);
         System.out.println("2. [Outer Power Station] - " + m2);
         System.out.println("3. [Generator Building] - " + m3);
         System.out.println("4. [Core Control Room] - " + m4);
 
-        System.out.println("\nOptions:");
-        System.out.println("1. Explore the Next Mission Location");
-        System.out.println("2. View Status & Inventory");
-        System.out.println("3. Exit the Game");
+        if (Narrator.getLanguage() == Language.ID) {
+            System.out.println("\nOpsi:");
+            System.out.println("1. Jelajahi Lokasi Misi Berikutnya");
+            System.out.println("2. Lihat Status & Inventori");
+            System.out.println("3. Keluar dari Permainan");
+        } else {
+            System.out.println("\nOptions:");
+            System.out.println("1. Explore the Next Mission Location");
+            System.out.println("2. View Status & Inventory");
+            System.out.println("3. Exit the Game");
+        }
 
-        int choice = input.getInt("Your choice (1-3): ", 1, 3);
+        String choicePrompt = (Narrator.getLanguage() == Language.ID) ? "Pilihan Anda (1-3): " : "Your choice (1-3): ";
+        int choice = input.getInt(choicePrompt, 1, 3);
 
         // menu choice
         switch (choice) {
@@ -183,7 +204,11 @@ public class GameManager {
                 this.feedbackMessage = showInventoryMenu(false);
                 break;
             case 3:
-                System.out.print("Are you sure you want to exit?? (y/n)");
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.print("Apakah Anda yakin ingin keluar? (y/n)");
+                } else {
+                    System.out.print("Are you sure you want to exit?? (y/n)");
+                }
                 if (input.getString("").equalsIgnoreCase("y")) {
                     isGameRunning = false;
                     this.hasQuit = true;
@@ -206,8 +231,13 @@ public class GameManager {
                 player.addItemToInventory(item1);
                 boolean leveledUp = player.addExp(50);
                 if (leveledUp) {
-                    this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased. ";
+                    if (Narrator.getLanguage() == Language.ID) {
+                        this.feedbackMessage = " LEVEL UP! Anda sekarang Level " + player.getLevel()
+                                + "! Statistik meningkat. ";
+                    } else {
+                        this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
+                                + "! Stats increased. ";
+                    }
                 }
             }
         } else if (!monster2Defeated) {
@@ -220,16 +250,28 @@ public class GameManager {
                 player.addItemToInventory(item2);
                 boolean leveledUp = player.addExp(75);
                 if (leveledUp) {
-                    this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased. ";
+                    if (Narrator.getLanguage() == Language.ID) {
+                        this.feedbackMessage = " LEVEL UP! Anda sekarang Level " + player.getLevel()
+                                + "! Statistik meningkat. ";
+                    } else {
+                        this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
+                                + "! Stats increased. ";
+                    }
                 }
             }
         } else if (!monster3Defeated) {
             Narrator.showLocation("Generator Building");
-            System.out.println("The map shows two routes:");
-            System.out.println("1. Go through the Main Hall (Guarded by Scavenger Heavy)");
-            System.out.println("2. Go through the Coolant Tunnels (Alpha Crawler's Nest)");
-            int rute = input.getInt("Choose route (1-2): ", 1, 2);
+            if (Narrator.getLanguage() == Language.ID) {
+                System.out.println("Peta menunjukkan dua rute:");
+                System.out.println("1. Lewati Aula Utama (Dijaga oleh Scavenger Heavy)");
+                System.out.println("2. Lewati Terowongan Pendingin (Sarang Alpha Crawler)");
+            } else {
+                System.out.println("The map shows two routes:");
+                System.out.println("1. Go through the Main Hall (Guarded by Scavenger Heavy)");
+                System.out.println("2. Go through the Coolant Tunnels (Alpha Crawler's Nest)");
+            }
+            String routePrompt = (Narrator.getLanguage() == Language.ID) ? "Pilih rute (1-2): " : "Choose route (1-2): ";
+            int rute = input.getInt(routePrompt, 1, 2);
 
             Monster monsterPilihan = (rute == 1) ? monster3a : monster3b;
             startBattle(monsterPilihan);
@@ -240,8 +282,13 @@ public class GameManager {
                 player.addItemToInventory(item3);
                 boolean leveledUp = player.addExp(150); // FIXED
                 if (leveledUp) {
-                    this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased. ";
+                    if (Narrator.getLanguage() == Language.ID) {
+                        this.feedbackMessage = " LEVEL UP! Anda sekarang Level " + player.getLevel()
+                                + "! Statistik meningkat. ";
+                    } else {
+                        this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
+                                + "! Stats increased. ";
+                    }
                 }
             }
         } else if (!boss4Defeated) {
@@ -253,13 +300,22 @@ public class GameManager {
                 player.addItemToInventory(boss4.dropItem());
                 boolean leveledUp = player.addExp(300); // FIXED
                 if (leveledUp) {
-                    this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
-                            + "! Stats increased. ";
+                    if (Narrator.getLanguage() == Language.ID) {
+                        this.feedbackMessage = " LEVEL UP! Anda sekarang Level " + player.getLevel()
+                                + "! Statistik meningkat. ";
+                    } else {
+                        this.feedbackMessage = " LEVEL UP! You are now Level " + player.getLevel()
+                                + "! Stats increased. ";
+                    }
                 }
                 checkWinCondition();
             }
         } else {
-            System.out.println("All missions are complete. You have saved the Caldera Bunker!");
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println("Semua misi selesai. Anda telah menyelamatkan Caldera Bunker!");
+                } else {
+                    System.out.println("All missions are complete. You have saved the Caldera Bunker!");
+                }
         }
 
         if (isGameRunning) {
@@ -303,7 +359,8 @@ public class GameManager {
             buildStatBlock(monster);
             buildPlayerMenu();
 
-            int choice = input.getInt(ConsoleUtils.GRAY + "Your choice (1-4): " + ConsoleUtils.RESET, 1, 4);
+            String battleChoicePrompt = (Narrator.getLanguage() == Language.ID) ? ConsoleUtils.GRAY + "Pilihan Anda (1-4): " + ConsoleUtils.RESET : ConsoleUtils.GRAY + "Your choice (1-4): " + ConsoleUtils.RESET;
+            int choice = input.getInt(battleChoicePrompt, 1, 4);
             boolean turnUsed = false;
 
             // action's option
@@ -325,11 +382,19 @@ public class GameManager {
 
                 AsciiArt.showPlayerFleeing();
                 System.err.println();
-                System.out.println(
-                        ConsoleUtils.YELLOW + "You chose to flee! Sprinting back to safety..." + ConsoleUtils.RESET);
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println(ConsoleUtils.YELLOW + "Anda memilih melarikan diri! Berlari kembali ke tempat aman..." + ConsoleUtils.RESET);
+                } else {
+                    System.out.println(ConsoleUtils.YELLOW + "You chose to flee! Sprinting back to safety..." + ConsoleUtils.RESET);
+                }
 
-                this.feedbackMessage = "You fled from " + monster.getName()
-                        + ". You are rested and ready to try again.";
+                if (Narrator.getLanguage() == Language.ID) {
+                    this.feedbackMessage = "Anda melarikan diri dari " + monster.getName()
+                            + ". Anda pulih dan siap mencoba lagi.";
+                } else {
+                    this.feedbackMessage = "You fled from " + monster.getName()
+                            + ". You are rested and ready to try again.";
+                }
                 return;
             }
 
@@ -338,7 +403,7 @@ public class GameManager {
                 // revive check
                 if (this.reviveCharges > 0) {
                     Narrator.showRevivePrompt(this.reviveCharges);
-                    String reviveChoice = input.getString("Call for help? (y/n): "); // ask revive?
+                    String reviveChoice = input.getString((Narrator.getLanguage() == Language.ID) ? "Panggil bantuan? (y/n): " : "Call for help? (y/n): "); // ask revive?
 
                     if (reviveChoice.equalsIgnoreCase("y")) {
                         this.reviveCharges--;
@@ -348,11 +413,15 @@ public class GameManager {
                         // ConsoleUtils.clear();
 
                         Narrator.showReviveSuccess();
-                        this.feedbackMessage = "You were rescued by a Med-Bot. The monster remains, but you are alive.";
+                        if (Narrator.getLanguage() == Language.ID) {
+                            this.feedbackMessage = "Anda diselamatkan oleh Med-Bot. Musuh tetap ada, tetapi Anda selamat.";
+                        } else {
+                            this.feedbackMessage = "You were rescued by a Med-Bot. The monster remains, but you are alive.";
+                        }
                         return; // respawn / return to menu
                     } else {
-                        System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
-                                + ConsoleUtils.RESET);
+                        System.out.println("\n" + ConsoleUtils.RED + player.getName() + (Narrator.getLanguage() == Language.ID ? " telah dikalahkan!" : " has been defeated!")
+                            + ConsoleUtils.RESET);
                         isGameRunning = false;
                         ConsoleUtils.clear();
                         Narrator.showEndingB_Fail();
@@ -360,8 +429,8 @@ public class GameManager {
                     }
                 } else {
                     Narrator.showNoChargesLeft();
-                    System.out.println(
-                            "\n" + ConsoleUtils.RED + player.getName() + " has been defeated!" + ConsoleUtils.RESET);
+                        System.out.println(
+                            "\n" + ConsoleUtils.RED + player.getName() + (Narrator.getLanguage() == Language.ID ? " telah dikalahkan!" : " has been defeated!") + ConsoleUtils.RESET);
                     isGameRunning = false;
                     ConsoleUtils.clear();
                     Narrator.showEndingB_Fail();
@@ -370,21 +439,27 @@ public class GameManager {
             }
             // beating monster
             if (!monster.isAlive()) {
-                System.out.println("\n[!] " + ConsoleUtils.RESET + monster.getName() + " has been"
-                        + ConsoleUtils.RED + " DEFEATED!"
-                        + ConsoleUtils.RESET);
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println("\n[!] " + ConsoleUtils.RESET + monster.getName() + " sudah"
+                            + ConsoleUtils.RED + " DIKALAHKAN!"
+                            + ConsoleUtils.RESET);
+                } else {
+                    System.out.println("\n[!] " + ConsoleUtils.RESET + monster.getName() + " has been"
+                            + ConsoleUtils.RED + " DEFEATED!"
+                            + ConsoleUtils.RESET);
+                }
                 break;
             }
 
             if (turnUsed) {
                 player.decrementHealCooldown();
-                System.out.println(ConsoleUtils.RED + "\nEnemy Turn:" + ConsoleUtils.RESET);
+                System.out.println(ConsoleUtils.RED + "\n" + (Narrator.getLanguage() == Language.ID ? "Giliran Musuh:" : "Enemy Turn:") + ConsoleUtils.RESET);
                 monster.attack(player);
 
                 if (!player.isAlive()) {
                     if (this.reviveCharges > 0) {
                         Narrator.showRevivePrompt(this.reviveCharges);
-                        String reviveChoice = input.getString("Call for help? (y/n): ");
+                        String reviveChoice = input.getString((Narrator.getLanguage() == Language.ID) ? "Panggil bantuan? (y/n): " : "Call for help? (y/n): ");
 
                         if (reviveChoice.equalsIgnoreCase("y")) {
                             this.reviveCharges--;
@@ -393,10 +468,14 @@ public class GameManager {
                             // ConsoleUtils.clear();
 
                             Narrator.showReviveSuccess();
-                            this.feedbackMessage = "You were rescued by a Med-Bot. The monster remains, but you are alive.";
+                            if (Narrator.getLanguage() == Language.ID) {
+                                this.feedbackMessage = "Anda diselamatkan oleh Med-Bot. Musuh tetap ada, tetapi Anda selamat.";
+                            } else {
+                                this.feedbackMessage = "You were rescued by a Med-Bot. The monster remains, but you are alive.";
+                            }
                             return;
                         } else {
-                            System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
+                                System.out.println("\n" + ConsoleUtils.RED + player.getName() + (Narrator.getLanguage() == Language.ID ? " telah dikalahkan!" : " has been defeated!")
                                     + ConsoleUtils.RESET);
                             isGameRunning = false;
                             ConsoleUtils.clear();
@@ -405,8 +484,8 @@ public class GameManager {
                         }
                     } else {
                         Narrator.showNoChargesLeft();
-                        System.out.println("\n" + ConsoleUtils.RED + player.getName() + " has been defeated!"
-                                + ConsoleUtils.RESET);
+                        System.out.println("\n" + ConsoleUtils.RED + player.getName() + (Narrator.getLanguage() == Language.ID ? " telah dikalahkan!" : " has been defeated!")
+                            + ConsoleUtils.RESET);
                         isGameRunning = false;
                         ConsoleUtils.clear();
                         Narrator.showEndingB_Fail();
@@ -426,11 +505,19 @@ public class GameManager {
         String feedback = "";
 
         if (inBattle) {
-            System.out.println(ConsoleUtils.BLUE + "\nOpening Backpack (Consumable only):" + ConsoleUtils.RESET);
+            if (Narrator.getLanguage() == Language.ID) {
+                System.out.println(ConsoleUtils.BLUE + "\nMembuka Ransel (Hanya Consumable):" + ConsoleUtils.RESET);
+            } else {
+                System.out.println(ConsoleUtils.BLUE + "\nOpening Backpack (Consumable only):" + ConsoleUtils.RESET);
+            }
             List<Consumable> consumables = player.getConsumableItems();
 
             if (consumables.isEmpty()) {
-                System.out.println("You have no usable items in combat.");
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println("Anda tidak memiliki item yang dapat digunakan dalam pertempuran.");
+                } else {
+                    System.out.println("You have no usable items in combat.");
+                }
                 return "";
             }
 
@@ -442,10 +529,15 @@ public class GameManager {
             }
             System.out.println(ConsoleUtils.GRAY + "--------------------------------------" + ConsoleUtils.RESET);
 
-            int itemChoice = input.getInt("Enter item number (0 to Cancel): ", 0,
+            String enterItemPrompt = (Narrator.getLanguage() == Language.ID) ? "Masukkan nomor item (0 untuk batal): " : "Enter item number (0 to Cancel): ";
+            int itemChoice = input.getInt(enterItemPrompt, 0,
                     consumables.size());
             if (itemChoice == 0) {
-                System.out.println("Canceled item use. Turn not used.");
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println("Pembatalan penggunaan item. Giliran tidak digunakan.");
+                } else {
+                    System.out.println("Canceled item use. Turn not used.");
+                }
                 return "";
             }
 
@@ -457,33 +549,42 @@ public class GameManager {
             player.showStatus();
             // player.showInventory(); // Moved inside showStatus
 
-            System.out.println("\nInventory Options:");
-            System.out.println("1. Use/Equip Item");
-            System.out.println("2. Unequip Item");
-            System.out.println("0. Back");
+            if (Narrator.getLanguage() == Language.ID) {
+                System.out.println("\nOpsi Inventori:");
+                System.out.println("1. Gunakan/Pasang Item");
+                System.out.println("2. Lepas Item");
+                System.out.println("0. Kembali");
+            } else {
+                System.out.println("\nInventory Options:");
+                System.out.println("1. Use/Equip Item");
+                System.out.println("2. Unequip Item");
+                System.out.println("0. Back");
+            }
 
-            int choice = input.getInt("Your choice (0-2): ", 0, 2);
+            String inventoryChoicePrompt = (Narrator.getLanguage() == Language.ID) ? "Pilihan Anda (0-2): " : "Your choice (0-2): ";
+            int choice = input.getInt(inventoryChoicePrompt, 0, 2);
 
             if (choice == 0) {
                 return "";
             } else if (choice == 1) {
                 if (player.getInventory().isEmpty()) {
-                    feedback = "Backpack is empty.";
+                    feedback = (Narrator.getLanguage() == Language.ID) ? "Ransel kosong." : "Backpack is empty.";
                     System.out.println(feedback);
                     return feedback;
                 }
 
                 player.showInventory();
-                int itemChoice = input.getInt("Enter item number (0 to Cancel): ", 0, player.getInventory().size());
+                String enterItemPrompt = (Narrator.getLanguage() == Language.ID) ? "Masukkan nomor item (0 untuk batal): " : "Enter item number (0 to Cancel): ";
+                int itemChoice = input.getInt(enterItemPrompt, 0, player.getInventory().size());
 
                 if (itemChoice == 0) {
-                    feedback = "Canceled item selection.";
+                    feedback = (Narrator.getLanguage() == Language.ID) ? "Pemilihan item dibatalkan." : "Canceled item selection.";
                     System.out.println(feedback);
                     return feedback;
                 }
 
                 if (itemChoice - 1 >= player.getInventory().size() || itemChoice - 1 < 0) {
-                    feedback = "Invalid item number.";
+                    feedback = (Narrator.getLanguage() == Language.ID) ? "Nomor item tidak valid." : "Invalid item number.";
                     System.out.println(feedback);
                     return feedback;
                 }
@@ -495,19 +596,27 @@ public class GameManager {
                 } else if (itemDipilih instanceof Weapon || itemDipilih instanceof Armor) {
                     feedback = player.equipItem(itemDipilih);
                 } else if (itemDipilih instanceof QuestItem) {
-                    feedback = itemDipilih.getName() + " is a quest item and cannot be used.";
+                    if (Narrator.getLanguage() == Language.ID) {
+                        feedback = itemDipilih.getName() + " adalah item misi dan tidak dapat digunakan.";
+                    } else {
+                        feedback = itemDipilih.getName() + " is a quest item and cannot be used.";
+                    }
                     System.out.println(feedback);
                 }
                 return feedback;
             } else if (choice == 2) {
-                System.out.println("Unequip [1] Weapon or [2] Armor? (0 to Cancel)");
-                int slotChoice = input.getInt("Your choice (0-2): ", 0, 2);
+                if (Narrator.getLanguage() == Language.ID) {
+                    System.out.println("Lepas [1] Senjata atau [2] Armor? (0 untuk batal)");
+                } else {
+                    System.out.println("Unequip [1] Weapon or [2] Armor? (0 to Cancel)");
+                }
+                int slotChoice = input.getInt((Narrator.getLanguage() == Language.ID) ? "Pilihan Anda (0-2): " : "Your choice (0-2): ", 0, 2);
                 if (slotChoice == 1) {
                     feedback = player.unequipItem("weapon");
                 } else if (slotChoice == 2) {
                     feedback = player.unequipItem("armor");
                 } else {
-                    feedback = "Canceled unequip.";
+                    feedback = (Narrator.getLanguage() == Language.ID) ? "Pembatalan pelepasan." : "Canceled unequip.";
                 }
                 return feedback;
             }
@@ -552,12 +661,20 @@ public class GameManager {
 
     // applying
     private void buildPlayerMenu() {
-        String healStatus = player.getHealCooldown() > 0 ? "(CD: " + player.getHealCooldown() + ")" : "(Ready)";
+        String healStatus = player.getHealCooldown() > 0 ? "(CD: " + player.getHealCooldown() + ")"
+            : (Narrator.getLanguage() == Language.ID ? "(Siap)" : "(Ready)");
+
+        String action1 = Narrator.getLanguage() == Language.ID ? "Serang" : "Attack";
+        String action2 = Narrator.getLanguage() == Language.ID ? "Gunakan Item" : "Use Item";
+        String action3 = Narrator.getLanguage() == Language.ID ? "Sembuh" : "Heal";
+        String action4 = Narrator.getLanguage() == Language.ID ? "Melarikan diri" : "Flee";
+
         String options = String.format(ConsoleUtils.BLUE + "|" + ConsoleUtils.RESET
-                + " (1) Attack  (2) Use Item  (3) Heal %-7s  (4) Flee          " + ConsoleUtils.BLUE + "|"
-                + ConsoleUtils.RESET, healStatus);
-        String top = "+-- Your Turn! -------------------------------------------------+";
-        String bottom = "+-- Choose one option: -----------------------------------------+";
+            + " (1) %-10s  (2) %-13s  (3) %-7s %-7s  (4) %-13s " + ConsoleUtils.BLUE + "|"
+            + ConsoleUtils.RESET, action1, action2, action3, healStatus, action4);
+
+        String top = Narrator.getLanguage() == Language.ID ? "+-- Giliran Anda! -----------------------------------------------+" : "+-- Your Turn! -------------------------------------------------+";
+        String bottom = Narrator.getLanguage() == Language.ID ? "+-- Pilih salah satu opsi: --------------------------------------+" : "+-- Choose one option: -----------------------------------------+";
         System.out.println(ConsoleUtils.BLUE + top + ConsoleUtils.RESET);
         System.out.println(options);
         System.out.println(ConsoleUtils.BLUE + bottom + ConsoleUtils.RESET);

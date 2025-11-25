@@ -48,6 +48,10 @@ public abstract class Entity {
         if (this.hp > this.maxHp) { // 118 > 100(lvl 1) = true
             this.hp = this.maxHp; // hp = maxHp(100) depends on level
         }
-        System.out.println("\n" + ConsoleUtils.GREEN + this.name + " recovers " + amount + " HP." + ConsoleUtils.RESET);
+        if (utils.Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println("\n" + ConsoleUtils.GREEN + this.name + " memulihkan " + amount + " HP." + ConsoleUtils.RESET);
+        } else {
+            System.out.println("\n" + ConsoleUtils.GREEN + this.name + " recovers " + amount + " HP." + ConsoleUtils.RESET);
+        }
     }
 }

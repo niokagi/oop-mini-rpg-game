@@ -19,7 +19,11 @@ public class Monster extends Entity {
     // override from entity
     @Override
     public void attack(Entity target) {
-        System.out.println(this.name + " attack " + target.getName() + "!");
+        if (utils.Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println(this.name + " menyerang " + target.getName() + "!");
+        } else {
+            System.out.println(this.name + " attack " + target.getName() + "!");
+        }
         target.tookDamage(this.attackPower);
     }
 
@@ -33,7 +37,11 @@ public class Monster extends Entity {
         super.tookDamage(damageDiterima);
         // String tookDamage = ConsoleUtils.RED + damageDiterima + ConsoleUtils.RESET;
         String tookDamage = ConsoleUtils.RED + damageDiterima;
-        System.out.println(ConsoleUtils.GRAY + this.name + " took " + tookDamage + " damage." + ConsoleUtils.RESET);
+        if (utils.Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println(ConsoleUtils.GRAY + this.name + " menerima " + tookDamage + " kerusakan." + ConsoleUtils.RESET);
+        } else {
+            System.out.println(ConsoleUtils.GRAY + this.name + " took " + tookDamage + " damage." + ConsoleUtils.RESET);
+        }
     }
 
     // drop item

@@ -2,6 +2,7 @@ package models;
 
 import models.items.*;
 import utils.ConsoleUtils;
+import utils.Narrator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -50,8 +51,13 @@ public class Player extends Entity {
     @Override
     public void attack(Entity target) {
         System.out.println();
-        System.out.println(this.name + " attacks " + target.getName() + " with "
-                + (equippedWeapon != null ? equippedWeapon.getName() : "bare hands") + "!");
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println(this.name + " menyerang " + target.getName() + " menggunakan "
+                    + (equippedWeapon != null ? equippedWeapon.getName() : "tangan kosong") + "!");
+        } else {
+            System.out.println(this.name + " attacks " + target.getName() + " with "
+                    + (equippedWeapon != null ? equippedWeapon.getName() : "bare hands") + "!");
+        }
         target.tookDamage(this.totalAttack);
     }
 
@@ -64,7 +70,12 @@ public class Player extends Entity {
         }
 
         super.tookDamage(damageDiterima);
-        String[] reactions = { "Ugh!", "Gah!", "That stings!", "Damn it!" }; // also add text effect when attacking, for
+        String[] reactions;
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            reactions = new String[]{"Aduh!", "Argh!", "Sakit juga!", "Sialan!"};
+        } else {
+            reactions = new String[]{"Ugh!", "Gah!", "That stings!", "Damn it!"};
+        }
                                                                              // next (!)
         String reaction = reactions[ThreadLocalRandom.current().nextInt(reactions.length)];
         String dmgReceivedText = ConsoleUtils.RED + damageDiterima + " damage: ";
@@ -75,7 +86,11 @@ public class Player extends Entity {
     // + exp
     public boolean addExp(int amount) {
         this.exp += amount;
-        System.out.println("[!] " + this.name + " gained " + ConsoleUtils.CYAN + amount + " EXP." + ConsoleUtils.RESET);
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println("[!] " + this.name + " memperoleh " + ConsoleUtils.CYAN + amount + " EXP." + ConsoleUtils.RESET);
+        } else {
+            System.out.println("[!] " + this.name + " gained " + ConsoleUtils.CYAN + amount + " EXP." + ConsoleUtils.RESET);
+        }
         if (this.exp >= this.expToNextLevel) {
             levelUp();
             return true;
@@ -101,8 +116,11 @@ public class Player extends Entity {
     // after beating monster/enemy
     public void addItemToInventory(Item item) {
         this.inventory.add(item);
-        System.out.println("[!] \"" + item.getName() + "\" was added to your inventory."
-                + ConsoleUtils.RESET);
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println("[!] \"" + item.getName() + "\" telah ditambahkan ke ransel Anda." + ConsoleUtils.RESET);
+        } else {
+            System.out.println("[!] \"" + item.getName() + "\" was added to your inventory." + ConsoleUtils.RESET);
+        }
     }
 
     // equip
@@ -114,7 +132,11 @@ public class Player extends Entity {
             }
             this.equippedWeapon = (Weapon) itemToEquip;
             this.inventory.remove(itemToEquip);
-            feedback = itemToEquip.getName() + " is now equipped as your weapon.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = itemToEquip.getName() + " sekarang dipasang sebagai senjata Anda.";
+            } else {
+                feedback = itemToEquip.getName() + " is now equipped as your weapon.";
+            }
             System.out.println(ConsoleUtils.YELLOW + feedback + ConsoleUtils.RESET);
         } else if (itemToEquip instanceof Armor) {
             if (this.equippedArmor != null) {
@@ -122,10 +144,18 @@ public class Player extends Entity {
             }
             this.equippedArmor = (Armor) itemToEquip;
             this.inventory.remove(itemToEquip);
-            feedback = itemToEquip.getName() + " is now equipped as your armor.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = itemToEquip.getName() + " sekarang dipasang sebagai armor Anda.";
+            } else {
+                feedback = itemToEquip.getName() + " is now equipped as your armor.";
+            }
             System.out.println(ConsoleUtils.YELLOW + feedback + ConsoleUtils.RESET);
         } else {
-            feedback = itemToEquip.getName() + " cannot be equipped.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = itemToEquip.getName() + " tidak bisa dipasang.";
+            } else {
+                feedback = itemToEquip.getName() + " cannot be equipped.";
+            }
             System.out.println(feedback);
         }
 
@@ -137,17 +167,29 @@ public class Player extends Entity {
     public String unequipItem(String slot) {
         String feedback = "";
         if (slot.equalsIgnoreCase("weapon") && this.equippedWeapon != null) {
-            feedback = this.equippedWeapon.getName() + " has been unequipped.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = this.equippedWeapon.getName() + " telah dilepas.";
+            } else {
+                feedback = this.equippedWeapon.getName() + " has been unequipped.";
+            }
             System.out.println(ConsoleUtils.YELLOW + feedback + ConsoleUtils.RESET);
             this.inventory.add(this.equippedWeapon);
             this.equippedWeapon = null;
         } else if (slot.equalsIgnoreCase("armor") && this.equippedArmor != null) {
-            feedback = this.equippedArmor.getName() + " has been unequipped.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = this.equippedArmor.getName() + " telah dilepas.";
+            } else {
+                feedback = this.equippedArmor.getName() + " has been unequipped.";
+            }
             System.out.println(ConsoleUtils.YELLOW + feedback + ConsoleUtils.RESET);
             this.inventory.add(this.equippedArmor);
             this.equippedArmor = null;
         } else {
-            feedback = "This slot is empty.";
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                feedback = "Slot tersebut kosong.";
+            } else {
+                feedback = "This slot is empty.";
+            }
             System.out.println(feedback);
         }
 
@@ -158,7 +200,12 @@ public class Player extends Entity {
     public String useConsumable(Consumable item) {
         heal(item.getHpBonus());
         this.inventory.remove(item);
-        String feedback = ConsoleUtils.GRAY + item.getName() + " has been used.";
+        String feedback;
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            feedback = ConsoleUtils.GRAY + item.getName() + " telah digunakan.";
+        } else {
+            feedback = ConsoleUtils.GRAY + item.getName() + " has been used.";
+        }
         System.out.println(feedback);
         return feedback;
     }
@@ -173,27 +220,27 @@ public class Player extends Entity {
         sb.append(horizontalLine);
 
         // status header
-        String title = "Status";
+        String title = (Narrator.getLanguage() == utils.Language.ID) ? "Status" : "Status";
         int titlePadding = CONTENT_WIDTH - title.length();
         sb.append("| " + ConsoleUtils.BLUE + title + ConsoleUtils.RESET
                 + " ".repeat(titlePadding) + " |\n");
         // name
-        String nameContent = "Name : " + this.name;
+        String nameContent = (Narrator.getLanguage() == utils.Language.ID) ? "Nama : " + this.name : "Name : " + this.name;
         int namePadding = CONTENT_WIDTH - nameContent.length();
         sb.append("| " + nameContent + " ".repeat(namePadding) + " |\n");
         // lvl
-        String levelContent = "Level : " + this.level + " (EXP: " + this.exp + "/" + this.expToNextLevel + ")";
+        String levelContent = (Narrator.getLanguage() == utils.Language.ID) ? "Level : " + this.level + " (EXP: " + this.exp + "/" + this.expToNextLevel + ")" : "Level : " + this.level + " (EXP: " + this.exp + "/" + this.expToNextLevel + ")";
         int levelPadding = CONTENT_WIDTH - levelContent.length();
         sb.append("| " + levelContent + " ".repeat(levelPadding) + " |\n");
         // hp
-        String hpLabel = "HP : ";
+        String hpLabel = (Narrator.getLanguage() == utils.Language.ID) ? "HP : " : "HP : ";
         String hpValue = this.hp + "/" + this.maxHp;
         String hpContent = hpLabel + ConsoleUtils.GREEN + hpValue + ConsoleUtils.RESET;
         int hpVisibleLength = hpLabel.length() + hpValue.length();
         int hpPadding = CONTENT_WIDTH - hpVisibleLength;
         sb.append("| " + hpContent + " ".repeat(hpPadding) + " |\n");
         // att
-        String attackLabel = "Attack: ";
+        String attackLabel = (Narrator.getLanguage() == utils.Language.ID) ? "Serangan: " : "Attack: ";
         String attackValue = " (Base: " + this.baseAttack + ")";
         String attackContent = attackLabel + ConsoleUtils.RED + this.totalAttack + ConsoleUtils.RESET + attackValue;
         int attackVisibleLength = attackLabel.length() + String.valueOf(this.totalAttack).length()
@@ -201,7 +248,7 @@ public class Player extends Entity {
         int attackPadding = CONTENT_WIDTH - attackVisibleLength;
         sb.append("| " + attackContent + " ".repeat(attackPadding) + " |\n");
         // def
-        String defenseLabel = "Defense: ";
+        String defenseLabel = (Narrator.getLanguage() == utils.Language.ID) ? "Pertahanan: " : "Defense: ";
         String defenseValue = " (Base: " + this.baseDefense + ")";
         String defenseContent = defenseLabel + ConsoleUtils.BLUE + this.totalDefense + ConsoleUtils.RESET
                 + defenseValue;
@@ -213,12 +260,12 @@ public class Player extends Entity {
         sb.append(emptyLine);
 
         // equipment header
-        String eqTitle = "Equipment";
+        String eqTitle = (Narrator.getLanguage() == utils.Language.ID) ? "Perlengkapan" : "Equipment";
         int eqTitlePadding = CONTENT_WIDTH - eqTitle.length();
         sb.append("| " + ConsoleUtils.BLUE + eqTitle + ConsoleUtils.RESET
                 + " ".repeat(eqTitlePadding) + " |\n");
         //
-        String weaponContent;
+            String weaponContent;
         int weaponVisibleLength;
         if (equippedWeapon != null) {
             String weaponLabel = "Weapon: " + equippedWeapon.getName();
@@ -227,7 +274,7 @@ public class Player extends Entity {
                     + ConsoleUtils.RESET + ")";
             weaponVisibleLength = weaponLabel.length() + weaponBonus.length();
         } else {
-            weaponContent = "Weapon: Empty";
+            weaponContent = (Narrator.getLanguage() == utils.Language.ID) ? "Senjata: Kosong" : "Weapon: Empty";
             weaponVisibleLength = weaponContent.length();
         }
         int weaponPadding = CONTENT_WIDTH - weaponVisibleLength;
@@ -242,7 +289,7 @@ public class Player extends Entity {
                     + ConsoleUtils.RESET + ")";
             armorVisibleLength = armorLabel.length() + armorBonus.length();
         } else {
-            armorContent = "Armor: Empty";
+            armorContent = (Narrator.getLanguage() == utils.Language.ID) ? "Armor: Kosong" : "Armor: Empty";
             armorVisibleLength = armorContent.length();
         }
         int armorPadding = CONTENT_WIDTH - armorVisibleLength;
@@ -252,13 +299,13 @@ public class Player extends Entity {
         sb.append(emptyLine);
 
         // Inventory Header
-        String invTitle = "Backpack Contents";
+        String invTitle = (Narrator.getLanguage() == utils.Language.ID) ? "Isi Ransel" : "Backpack Contents";
         int invTitlePadding = CONTENT_WIDTH - invTitle.length();
         sb.append("| " + ConsoleUtils.BLUE + invTitle + ConsoleUtils.RESET
                 + " ".repeat(invTitlePadding) + " |\n");
 
         if (inventory.isEmpty()) {
-            String emptyMsg = "Backpack is Empty.";
+            String emptyMsg = (Narrator.getLanguage() == utils.Language.ID) ? "Ransel kosong." : "Backpack is Empty.";
             int emptyPadding = CONTENT_WIDTH - emptyMsg.length();
             sb.append("| " + emptyMsg + " ".repeat(emptyPadding) + " |\n");
         } else {
@@ -308,9 +355,9 @@ public class Player extends Entity {
     }
 
     public void showInventory() {
-        System.out.println(ConsoleUtils.BLUE + "\nBackpack Contents (Inventory): " + ConsoleUtils.RESET);
+        System.out.println(ConsoleUtils.BLUE + "\n" + ((Narrator.getLanguage() == utils.Language.ID) ? "Isi Ransel (Inventory): " : "Backpack Contents (Inventory): ") + ConsoleUtils.RESET);
         if (inventory.isEmpty()) {
-            System.out.println("Backpack is Empty.");
+            System.out.println((Narrator.getLanguage() == utils.Language.ID) ? "Ransel kosong." : "Backpack is Empty.");
             return;
         }
         for (int i = 0; i < inventory.size(); i++) {
@@ -383,8 +430,13 @@ public class Player extends Entity {
     // use heal method
     public boolean useHealSkill() {
         if (this.healCooldown > 0) {
-            System.out.println(ConsoleUtils.RED + "Heal skill is on Cooldown! (" + this.healCooldown
-                    + " more turns)" + ConsoleUtils.RESET);
+            if (Narrator.getLanguage() == utils.Language.ID) {
+                System.out.println(ConsoleUtils.RED + "Skill Healer sedang cooldown! (" + this.healCooldown
+                        + " giliran lagi)" + ConsoleUtils.RESET);
+            } else {
+                System.out.println(ConsoleUtils.RED + "Heal skill is on Cooldown! (" + this.healCooldown
+                        + " more turns)" + ConsoleUtils.RESET);
+            }
             return false;
         }
 
@@ -392,7 +444,11 @@ public class Player extends Entity {
         int healAmount = this.maxHp / 4;
         this.heal(healAmount);
         this.healCooldown = 3;
-        System.out.println(ConsoleUtils.GRAY + "Heal Skill is now on cooldown (3 turns).");
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println(ConsoleUtils.GRAY + "Skill Heal sekarang dalam cooldown (3 giliran)." );
+        } else {
+            System.out.println(ConsoleUtils.GRAY + "Heal Skill is now on cooldown (3 turns).");
+        }
         return true;
     }
 }

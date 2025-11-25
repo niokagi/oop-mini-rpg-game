@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Scanner;
+import utils.Narrator;
 
 public class InputHandler {
     private Scanner scanner;
@@ -26,10 +27,18 @@ public class InputHandler {
                 if (choice >= min && choice <= max) {
                     break;
                 } else {
-                    System.out.println("Invalid choice. Enter a number between " + min + " and " + max + ".");
+                    if (Narrator.getLanguage() == utils.Language.ID) {
+                        System.out.println("Pilihan tidak valid. Masukkan angka antara " + min + " dan " + max + ".");
+                    } else {
+                        System.out.println("Invalid choice. Enter a number between " + min + " and " + max + ".");
+                    }
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Incorrect input. Please enter a valid number.");
+                if (Narrator.getLanguage() == utils.Language.ID) {
+                    System.out.println("Input salah. Silakan masukkan angka yang valid.");
+                } else {
+                    System.out.println("Incorrect input. Please enter a valid number.");
+                }
             }
         }
         return choice;
@@ -41,7 +50,11 @@ public class InputHandler {
     }
 
     public void pressEnterToContinue() {
-        System.out.print("\n[Press ENTER to continue...]");
+        if (Narrator.getLanguage() == utils.Language.ID) {
+            System.out.print("\n[Tekan ENTER untuk melanjutkan...]");
+        } else {
+            System.out.print("\n[Press ENTER to continue...]");
+        }
         scanner.nextLine();
     }
 }

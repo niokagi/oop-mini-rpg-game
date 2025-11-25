@@ -23,14 +23,23 @@ public class BossMonster extends Monster {
         } else {
             super.attack(target);
             chargeMeter++;
-            System.out.println(ConsoleUtils.YELLOW + this.name + " charging energy..." + ConsoleUtils.RESET);
+            if (utils.Narrator.getLanguage() == utils.Language.ID) {
+                System.out.println(ConsoleUtils.YELLOW + this.name + " sedang mengisi energi..." + ConsoleUtils.RESET);
+            } else {
+                System.out.println(ConsoleUtils.YELLOW + this.name + " charging energy..." + ConsoleUtils.RESET);
+            }
         }
     }
     // 
 
     public void specialAttack(Entity target) {
-        System.out.println("!!! " + ConsoleUtils.RED + this.name + " using a special attack 'OVERLOAD PULSE' !!!"
+        if (utils.Narrator.getLanguage() == utils.Language.ID) {
+            System.out.println("!!! " + ConsoleUtils.RED + this.name + " menggunakan serangan spesial 'OVERLOAD PULSE' !!!"
                 + ConsoleUtils.RESET);
+        } else {
+            System.out.println("!!! " + ConsoleUtils.RED + this.name + " using a special attack 'OVERLOAD PULSE' !!!"
+                + ConsoleUtils.RESET);
+        }
         target.tookDamage(this.specialAttackPower);
         this.chargeMeter = 0;
     }

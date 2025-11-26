@@ -96,15 +96,15 @@ public class GameManager {
         this.item3 = new QuestItem("Coolant Pump");
         this.item4 = new QuestItem("Geothermal Regulator Core");
 
-        Weapon weapon2 = new Weapon("Scavenger's Shiv", 9);
-        Armor armor3 = new Armor("Boiler Plate Vest", 10);
+        Weapon weapon2 = new Weapon("Scavenger's Shiv", 12);
+        Armor armor3 = new Armor("Boiler Plate Vest", 18);
         // Consumable potion = new Consumable("First-Aid Kit", 100);
 
         this.monster1 = new Monster("Pale Crawler", 60, 10, 3, this.item1);
         this.monster2 = new Monster("Soot-lung Scavenger", 90, 14, 6, weapon2);
-        this.monster3a = new Monster("Scavenger Heavy", 180, 20, 12, armor3);
-        this.monster3b = new Monster("Alpha Crawler", 220, 24, 8, armor3);
-        this.boss4 = new BossMonster("Station Sentinel", 400, 28, 15, 45, this.item4);
+        this.monster3a = new Monster("Scavenger Heavy", 180, 20, 10, armor3);
+        this.monster3b = new Monster("Alpha Crawler", 220, 20, 10, armor3);
+        this.boss4 = new BossMonster("Station Sentinel", 400, 28, 15, 40, this.item4);
     }
     // end of setup
 
@@ -327,6 +327,7 @@ public class GameManager {
                                 + "! Stats increased. ";
                     }
                 }
+                input.pressEnterToContinue();
                 checkWinCondition();
             }
         } else {

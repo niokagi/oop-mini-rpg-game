@@ -6,6 +6,24 @@ public class AsciiArt {
     private AsciiArt() {
     }
 
+    // victory assembly
+    public static void showVictoryAssembly() {
+        System.out.println(ConsoleUtils.CYAN);
+        System.out.println("     [Turbine]     [Valve]      [Pump]       [Core]");
+        System.out.println("      .---.         .---.        .---.       .---.");
+        System.out.println("     / (X) \\       | _O_ |      | |=| |     | (*) |");
+        System.out.println("     |  |  |       |  |  |      | | | |     |  |  |");
+        System.out.println("      '---'         '---'        '---'       '---'");
+        System.out.println("        |             |            |           |");
+        System.out.println("        |      _______V____________V_______    |");
+        System.out.println("        |     |                            |   |");
+        System.out.println("  [====================================================]");
+        System.out.println("  |          GEOTHERMAL REGULATOR: " + ConsoleUtils.GREEN + "ONLINE"
+                + ConsoleUtils.CYAN + "               |");
+        System.out.println("  [====================================================]");
+        System.out.println(ConsoleUtils.RESET);
+    }
+
     public static void showPaleCrawler() {
         System.out.println(ConsoleUtils.GRAY);
         System.out.println("     / \\.-./ \\");
@@ -88,7 +106,7 @@ public class AsciiArt {
         System.out.println(ConsoleUtils.GREEN);
         System.out.println("       (o) ");
         System.out.println("      __|__ ");
-        System.out.println("     /  " + ConsoleUtils.RED + "+" + ConsoleUtils.GREEN + "  \\ "); // Simbol + Hijau
+        System.out.println("     /  " + ConsoleUtils.RED + "+" + ConsoleUtils.GREEN + "  \\ ");
         System.out.println("    | [===] |");
         System.out.println("     \\_____/ ");
         System.out.println("     / v v \\ ");

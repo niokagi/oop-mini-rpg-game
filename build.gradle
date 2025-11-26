@@ -1,8 +1,8 @@
 // gradle config
-
 plugins {
     id 'java'
     id 'application'
+    id 'edu.sc.seis.launch4j' version '4.0.0'
 }
 
 repositories {
@@ -31,4 +31,23 @@ application {
 // conn keyboard input w program
 run {
     standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'core.GameManager'
+        )
+    }
+}
+
+// exe configure
+launch4j {
+    mainClassName = 'core.GameManager'
+    outfile = 'soot-fallout.exe'
+    headerType = 'console' 
+    jarTask = project.tasks.jar
+    jreMinVersion = '11'
+    errTitle = 'Java Required'
+    downloadUrl = 'http://java.com/download'
 }

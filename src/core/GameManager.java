@@ -55,6 +55,7 @@ public class GameManager {
         while (keepPlaying) {
             setupGame(playerName);
             ConsoleUtils.clear();
+            // prolog
             Narrator.showIntro();
             input.pressEnterToContinue();
 

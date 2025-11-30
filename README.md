@@ -199,7 +199,7 @@ Jika Anda salah perhitungan—misalnya lupa memakai *armor* baru atau kehabisan 
 
 | No. | Nama | NRP | GitHub |
 | :--- | :--- | :--- | :--- |
-| 1. | Randy Harkediansa Jufri | 3124510075 | [@randyhj](https://github.com/harked) |
+| 1. | Randy Harkediansa Jufri | 3124510075 | [@harked](https://github.com/harked) |
 | 2. | Hesa Firdaus | 3124510076 | [@hesa20](https://github.com/hesa20) |
 | 3. | Kalsa Syaqila | 3124510077 | [@kalsa64](https://github.com/kalsa64) |
 | 4. | Abdul Aziz | 3124510078 | [@abaz1d](https://github.com/abaz1d) |

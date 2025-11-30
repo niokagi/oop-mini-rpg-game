@@ -200,7 +200,7 @@ Jika Anda salah perhitungan—misalnya lupa memakai *armor* baru atau kehabisan 
 | No. | Nama | NRP | GitHub | Deskripsi Tugas |
 | :--- | :--- | :--- | :--- | :--- |
 | 1. | Randy Harkediansa Jufri | 3124510075 | [@harked](https://github.com/harked) | Membuat video demo game & *script* eksekusi untuk Linux/Mac. |
-| 2. | Hesa Firdaus | 3124510076 | [@hesa20](https://github.com/hesa20) | Implementasi Fitur *Multi-Language* (Bahasa Indonesia & Inggris). |
-| 3. | Kalsa Syaqila | 3124510077 | [@kalsa64](https://github.com/kalsa64) | Merancang UML Class Diagram & menyusun Laporan Program. |
+| 2. | Hesa Firdaus | 3124510076 | [@hesa20](https://github.com/hesa20) | Implementasi Fitur *Multi-Language* (Bahasa Indonesia & Inggris), Merancang UML Class Diagram |
+| 3. | Kalsa Syaqila | 3124510077 | [@kalsa64](https://github.com/kalsa64) | Menyusun Laporan Program. |
 | 4. | Abdul Aziz | 3124510078 | [@abaz1d](https://github.com/abaz1d) | Implementasi fitur *Revive* (pembangkitan karakter) & logika *loop/checkpoint*. |
 | 5. | Muhammad Adhim Niokagi | 3124510109 | [@niokagi](https://github.com/niokagi) | Mengembangkan *core gameplay* (turn-based, leveling, dsb), User Flow Diagram, menerapkan saran, masukan dan kolaborasi dari tim. |

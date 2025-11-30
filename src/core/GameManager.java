@@ -37,7 +37,7 @@ public class GameManager {
         game.startGame();
     }
 
-    // start game factory / preparation
+    // start game, game-loop / preparation
     public void startGame() {
         ConsoleUtils.clear();
         String playerName = input.getString("Enter your Thermo-Scavenger's name: ");
@@ -73,7 +73,6 @@ public class GameManager {
                 }
             }
         }
-
         input.close();
         System.out.println("Shutting down Caldera Bunker systems...");
     }

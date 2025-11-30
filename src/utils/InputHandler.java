@@ -17,13 +17,16 @@ public class InputHandler {
     }
 
     // min-max input control & constraint
+    // also input validation
     public int getInt(String prompt, int min, int max) {
         int choice = -1;
+        // looping while input isn't valid
         while (true) {
             System.out.print(prompt);
             String line = scanner.nextLine();
             try {
                 choice = Integer.parseInt(line);
+                // min-max input constraints
                 if (choice >= min && choice <= max) {
                     break;
                 } else {
@@ -33,6 +36,7 @@ public class InputHandler {
                         System.out.println("Invalid choice. Enter a number between " + min + " and " + max + ".");
                     }
                 }
+                // invalid input type (isn't number)
             } catch (NumberFormatException e) {
                 if (Narrator.getLanguage() == utils.Language.ID) {
                     System.out.println("Input salah. Silakan masukkan angka yang valid.");

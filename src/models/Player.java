@@ -76,7 +76,6 @@ public class Player extends Entity {
         } else {
             reactions = new String[]{"Ugh!", "Gah!", "That stings!", "Damn it!"};
         }
-                                                                             // next (!)
         String reaction = reactions[ThreadLocalRandom.current().nextInt(reactions.length)];
         String dmgReceivedText = ConsoleUtils.RED + damageDiterima + " damage: ";
         System.out.println(ConsoleUtils.GRAY + this.name + " receives " + dmgReceivedText + "\"" + reaction
@@ -91,6 +90,7 @@ public class Player extends Entity {
         } else {
             System.out.println("[!] " + this.name + " gained " + ConsoleUtils.CYAN + amount + " EXP." + ConsoleUtils.RESET);
         }
+        // check exp constraint
         if (this.exp >= this.expToNextLevel) {
             levelUp();
             return true;
@@ -101,11 +101,12 @@ public class Player extends Entity {
     // lvl up
     private void levelUp() {
         this.level++;
+        // scaling exp
         this.exp -= this.expToNextLevel;
         this.expToNextLevel *= 1.5;
 
         this.maxHp += 20;
-        this.hp = this.maxHp;
+        this.hp = this.maxHp; // full heal/recovery when level up
         this.baseAttack += 3;
         this.baseDefense += 1;
 
@@ -123,10 +124,12 @@ public class Player extends Entity {
         }
     }
 
-    // equip
+    // item equipment logic
     public String equipItem(Item itemToEquip) {
         String feedback = "";
+        // if item == weapon
         if (itemToEquip instanceof Weapon) {
+            // auto disposing of old items
             if (this.equippedWeapon != null) {
                 this.inventory.add(this.equippedWeapon);
             }
@@ -138,7 +141,9 @@ public class Player extends Entity {
                 feedback = itemToEquip.getName() + " is now equipped as your weapon.";
             }
             System.out.println(ConsoleUtils.YELLOW + feedback + ConsoleUtils.RESET);
+            // armor
         } else if (itemToEquip instanceof Armor) {
+            // disposing
             if (this.equippedArmor != null) {
                 this.inventory.add(this.equippedArmor);
             }
